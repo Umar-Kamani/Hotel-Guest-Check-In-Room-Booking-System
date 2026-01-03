@@ -11,12 +11,15 @@ def create_new_room():
         new_room_type=input("Please select your room type: ")
         if new_room_type == '1':
             new_room_type = "Standard Room"
+            print(f"Room Type: {new_room_type}.")
             break
         elif new_room_type == '2':
             new_room_type = "Deluxe Room"
+            print(f"Room Type: {new_room_type}.")
             break
         elif new_room_type == '3':
             new_room_type = "Suite Room"
+            print(f"Room Type: {new_room_type}.")
             break
         else :
             print("Invalid room type. Please try again.")
@@ -29,9 +32,11 @@ def create_new_room():
         new_room_condition=input("Please enter the room condition: ")
         if new_room_condition == '1':
             new_room_condition = "Clean"
+            print(f"Room Condition: {new_room_condition}")
             break
         elif new_room_condition == '2':
             new_room_condition = "Dirty"
+            print(f"Room Condition: {new_room_condition}")
             break
         else :
             print("Invalid room condition. Please try again.")
