@@ -1,5 +1,3 @@
-import classes
-
 def create_new_room():
     print("Welcome to the Room Creation Wizard")
     #Room number input
