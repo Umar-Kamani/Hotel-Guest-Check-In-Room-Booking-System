@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class Booking:
-    # Valid booking statuses
+    ### Valid booking statuses
     STATUS_RESERVED = "Reserved"
     STATUS_CHECKED_IN = "CheckedIn"
     STATUS_CHECKED_OUT = "CheckedOut"
@@ -40,10 +40,10 @@ class Booking:
         if not self.end_date:
             raise ValueError("End date is required")
         
-        # Validate date range
+        ###  Validate date range
         try:
-            start = datetime.strptime(self.start_date, "YYYYY-MM-DD")
-            end = datetime.strptime(self.end_date, "YYYYY-MM-DD")
+            start = datetime.strptime(self.start_date, "%Y-%m-%d")
+            end = datetime.strptime(self.end_date, "%Y-%m-%d")
             if end <= start:
                 raise ValueError("End date must be after start date")
         except ValueError as e:
@@ -52,13 +52,13 @@ class Booking:
             raise
 
     def update_status(self, new_status):
-        #Update booking status with validation."""
+        ###  Update booking status with validation."""
         if new_status not in self.VALID_STATUSES:
             raise ValueError(f"Invalid status. Must be one of: {', '.join(self.VALID_STATUSES)}")
         self.status = new_status
 
     def modify_dates(self, new_start_date, new_end_date):
-        #Update booking dates with validation."""
+        ### Update booking dates with validation."""
         try:
             start = datetime.strptime(new_start_date, "%Y-%m-%d")
             end = datetime.strptime(new_end_date, "%Y-%m-%d")
@@ -72,11 +72,11 @@ class Booking:
             raise
 
     def is_active(self):
-        """Check if booking is currently active (Reserved or CheckedIn)."""
+        ### This checks if booking is currently active (Reserved or CheckedIn)
         return self.status in [self.STATUS_RESERVED, self.STATUS_CHECKED_IN]
 
  def get_duration(self):
-        #This calculates number of nights for the booking
+        ### This calculates number of nights for the booking
         try:
             start = datetime.strptime(self.start_date, "%Y-%m-%d")
             end = datetime.strptime(self.end_date, "%Y-%m-%d")
@@ -85,7 +85,7 @@ class Booking:
             return 0
 
     def to_dict(self):
-        """Convert booking details to dictionary for saving to file."""
+        ### Convert booking details to dictionary for saving to file
         return {
             "booking_id": self.booking_id,
             "guest_id": self.guest_id,
