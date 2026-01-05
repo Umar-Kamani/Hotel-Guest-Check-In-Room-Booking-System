@@ -84,14 +84,19 @@ def create_new_room():
     print("___________________________________")
     #Room Rate input
     while True:
+
         new_room_rate=input("Please enter the room rate: $")
-        if not new_room_rate.isdigit() or new_room_rate == '':
+        try:
+            new_room_rate = float(new_room_rate)
+            if new_room_rate <= 0:
+                print("Invalid room rate. Please try again.")
+            else:
+                break
+        except ValueError:
             print("Invalid room rate. Please try again.")
-        else:
-            break
 
     print("___________________________________")
-    new_room = room_class.Room(new_room_number, new_room_type, new_room_status, new_room_rate, new_room_condition, new_room_access_pin, new_room_capacity) #makes new room into an object
+    new_room = room_class.Room(new_room_number, new_room_type, new_room_capacity, new_room_status, new_room_condition, new_room_access_pin, new_room_rate) #makes new room into an object
     print("___________________________________________________________")
     print("Room Successfully Created, please verify room details below:\n")
     room_data = {
@@ -101,8 +106,11 @@ def create_new_room():
         "Room Status": new_room_status,
         "Room Condition": new_room_condition,
         "Room Access Pin": new_room_access_pin,
-        "Room Rate": new_room_rate,
+        "Room Rate ($)": new_room_rate,
     }
     print(tabulate([room_data], headers="keys", tablefmt="fancy_grid"))
 
+
+
+room_class.load_room_data()
 create_new_room()
