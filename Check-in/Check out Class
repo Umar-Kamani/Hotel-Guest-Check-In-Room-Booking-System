@@ -1,1 +1,10 @@
+import os
+from datetime import datetime
+from .booking import Booking
 
+
+class CheckInOut(Booking):
+    # Payment status constants
+    PAYMENT_PAID = "Paid"
+    PAYMENT_NOT_PAID = "Not Paid"
+    PAYMENT_PARTIAL = "Partial Payment"
