@@ -1,3 +1,7 @@
+import classes
+
+
+
 def create_new_room():
     print("Welcome to the Room Creation Wizard")
     #Room number input
@@ -59,7 +63,7 @@ def create_new_room():
     while True:
         new_room_access_pin=input("Please enter the room access pin: ")
         try:
-            if not new_room_access_pin.isdigit or new_room_access_pin != 4 or new_room_access_pin == '': #this function checks for a valid 4 digit access pin
+            if not new_room_access_pin.isdigit or len(new_room_access_pin) != 4 or new_room_access_pin == '': #this function checks for a valid 4 digit access pin
                 print("Invalid room access pin. Room access pin must be 4 digits long.")
             else:
                 break
@@ -80,6 +84,8 @@ def create_new_room():
     print(new_room_rate)
     print(new_room_capacity)
 
-    new_room = classes.Room(new_room_number, new_room_type,"empty", new_room_rate, new_room_condition , new_room_access_pin, new_room_capacity)
+    new_room = classes.Room(new_room_number, new_room_type, "empty", new_room_rate, new_room_condition, new_room_access_pin, new_room_capacity)
+    print(new_room.__dict__)
+
 
 create_new_room()
