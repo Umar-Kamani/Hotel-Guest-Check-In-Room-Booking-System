@@ -1,5 +1,7 @@
+import room_class
 import room_management
 
+room_class.load_room_data()
 def main_menu():
     print("Welcome to Room Booking System Main Menu")
     print("1. Check In Guest")
