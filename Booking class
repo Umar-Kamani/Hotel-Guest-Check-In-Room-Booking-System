@@ -22,3 +22,57 @@ class Booking:
 
     def __str__(self):
         return f"Booking[{self.booking_id}] - Guest {self.guest_id}, Room {self.room_number}, Status: {self.status}"
+
+    def validate(self):
+        #Validate booking data
+        if not self.booking_id:
+            raise ValueError("Booking ID is required")
+        if not self.guest_id:
+            raise ValueError("Guest ID is required")
+        if not self.room_number:
+            raise ValueError("Room number is required")
+        if not self.status:
+            raise ValueError("Booking status is required")
+        if self.status not in self.VALID_STATUSES:
+            raise ValueError(f"Invalid status. Must be one of: {', '.join(self.VALID_STATUSES)}")
+        if not self.start_date:
+            raise ValueError("Start date is required")
+        if not self.end_date:
+            raise ValueError("End date is required")
+        
+        # Validate date range
+        try:
+            start = datetime.strptime(self.start_date, "YYYYY-MM-DD")
+            end = datetime.strptime(self.end_date, "YYYYY-MM-DD")
+            if end <= start:
+                raise ValueError("End date must be after start date")
+        except ValueError as e:
+            if "time data" in str(e):
+                raise ValueError("Invalid date format. Use YYYY-MM-DD format")
+            raise
+
+    def update_status(self, new_status):
+        #Update booking status with validation."""
+        if new_status not in self.VALID_STATUSES:
+            raise ValueError(f"Invalid status. Must be one of: {', '.join(self.VALID_STATUSES)}")
+        self.status = new_status
+
+    def modify_dates(self, new_start_date, new_end_date):
+        #Update booking dates with validation."""
+        try:
+            start = datetime.strptime(new_start_date, "%Y-%m-%d")
+            end = datetime.strptime(new_end_date, "%Y-%m-%d")
+            if end <= start:
+                raise ValueError("End date must be after start date")
+            self.start_date = new_start_date
+            self.end_date = new_end_date
+        except ValueError as e:
+            if "time data" in str(e):
+                raise ValueError("Invalid date format. Use YYYY-MM-DD format")
+            raise
+
+    def is_active(self):
+        """Check if booking is currently active (Reserved or CheckedIn)."""
+        return self.status in [self.STATUS_RESERVED, self.STATUS_CHECKED_IN]
+
+   
