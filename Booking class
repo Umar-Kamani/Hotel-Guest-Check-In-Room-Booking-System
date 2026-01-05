@@ -1,1 +1,24 @@
+import os
+from datetime import datetime
 
+
+class Booking:
+    # Valid booking statuses
+    STATUS_RESERVED = "Reserved"
+    STATUS_CHECKED_IN = "CheckedIn"
+    STATUS_CHECKED_OUT = "CheckedOut"
+    STATUS_CANCELLED = "Cancelled"
+    
+    VALID_STATUSES = [STATUS_RESERVED, STATUS_CHECKED_IN, STATUS_CHECKED_OUT, STATUS_CANCELLED]
+
+    def __init__(self, booking_id, guest_id, room_number, status, start_date, end_date):
+        self.booking_id = booking_id
+        self.guest_id = guest_id
+        self.room_number = room_number
+        self.status = status  # Reserved, CheckedIn, CheckedOut, Cancelled
+        self.start_date = start_date
+        self.end_date = end_date
+        self.validate()
+
+    def __str__(self):
+        return f"Booking[{self.booking_id}] - Guest {self.guest_id}, Room {self.room_number}, Status: {self.status}"
