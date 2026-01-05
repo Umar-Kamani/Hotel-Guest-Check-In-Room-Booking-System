@@ -1,0 +1,98 @@
+import os
+from datetime import datetime
+
+
+class Booking:
+    ### Valid booking statuses
+    STATUS_RESERVED = "Reserved"
+    STATUS_CHECKED_IN = "CheckedIn"
+    STATUS_CHECKED_OUT = "CheckedOut"
+    STATUS_CANCELLED = "Cancelled"
+    
+    VALID_STATUSES = [STATUS_RESERVED, STATUS_CHECKED_IN, STATUS_CHECKED_OUT, STATUS_CANCELLED]
+
+    def __init__(self, booking_id, guest_id, room_number, status, start_date, end_date):
+        self.booking_id = booking_id
+        self.guest_id = guest_id
+        self.room_number = room_number
+        self.status = status  # Reserved, CheckedIn, CheckedOut, Cancelled
+        self.start_date = start_date
+        self.end_date = end_date
+        self.validate()
+
+    def __str__(self):
+        return f"Booking[{self.booking_id}] - Guest {self.guest_id}, Room {self.room_number}, Status: {self.status}"
+
+    def validate(self):
+        #Validate booking data
+        if not self.booking_id:
+            raise ValueError("Booking ID is required")
+        if not self.guest_id:
+            raise ValueError("Guest ID is required")
+        if not self.room_number:
+            raise ValueError("Room number is required")
+        if not self.status:
+            raise ValueError("Booking status is required")
+        if self.status not in self.VALID_STATUSES:
+            raise ValueError(f"Invalid status. Must be one of: {', '.join(self.VALID_STATUSES)}")
+        if not self.start_date:
+            raise ValueError("Start date is required")
+        if not self.end_date:
+            raise ValueError("End date is required")
+        
+        ###  Validate date range
+        try:
+            start = datetime.strptime(self.start_date, "%Y-%m-%d")
+            end = datetime.strptime(self.end_date, "%Y-%m-%d")
+            if end <= start:
+                raise ValueError("End date must be after start date")
+        except ValueError as e:
+            if "time data" in str(e):
+                raise ValueError("Invalid date format. Use YYYY-MM-DD format")
+            raise
+
+    def update_status(self, new_status):
+        ###  Update booking status with validation."""
+        if new_status not in self.VALID_STATUSES:
+            raise ValueError(f"Invalid status. Must be one of: {', '.join(self.VALID_STATUSES)}")
+        self.status = new_status
+
+    def modify_dates(self, new_start_date, new_end_date):
+        ### Update booking dates with validation."""
+        try:
+            start = datetime.strptime(new_start_date, "%Y-%m-%d")
+            end = datetime.strptime(new_end_date, "%Y-%m-%d")
+            if end <= start:
+                raise ValueError("End date must be after start date")
+            self.start_date = new_start_date
+            self.end_date = new_end_date
+        except ValueError as e:
+            if "time data" in str(e):
+                raise ValueError("Invalid date format. Use YYYY-MM-DD format")
+            raise
+
+    def is_active(self):
+        ### This checks if booking is currently active (Reserved or CheckedIn)
+        return self.status in [self.STATUS_RESERVED, self.STATUS_CHECKED_IN]
+
+ def get_duration(self):
+        ### This calculates number of nights for the booking
+        try:
+            start = datetime.strptime(self.start_date, "%Y-%m-%d")
+            end = datetime.strptime(self.end_date, "%Y-%m-%d")
+            return (end - start).days
+        except ValueError:
+            return 0
+
+    def to_dict(self):
+        ### Convert booking details to dictionary for saving to file
+        return {
+            "booking_id": self.booking_id,
+            "guest_id": self.guest_id,
+            "room_number": self.room_number,
+            "status": self.status,
+            "start_date": self.start_date,
+            "end_date": self.end_date
+        }
+
+   
