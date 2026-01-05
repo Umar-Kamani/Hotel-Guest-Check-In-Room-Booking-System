@@ -75,4 +75,24 @@ class Booking:
         """Check if booking is currently active (Reserved or CheckedIn)."""
         return self.status in [self.STATUS_RESERVED, self.STATUS_CHECKED_IN]
 
+ def get_duration(self):
+        #This calculates number of nights for the booking
+        try:
+            start = datetime.strptime(self.start_date, "%Y-%m-%d")
+            end = datetime.strptime(self.end_date, "%Y-%m-%d")
+            return (end - start).days
+        except ValueError:
+            return 0
+
+    def to_dict(self):
+        """Convert booking details to dictionary for saving to file."""
+        return {
+            "booking_id": self.booking_id,
+            "guest_id": self.guest_id,
+            "room_number": self.room_number,
+            "status": self.status,
+            "start_date": self.start_date,
+            "end_date": self.end_date
+        }
+
    
