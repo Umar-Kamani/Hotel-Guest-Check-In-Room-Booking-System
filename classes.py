@@ -4,6 +4,7 @@ class Room:
     room_id = 0
     def __init__(self, room_number, room_type, room_status, room_rate, room_condition, room_access_pin, room_capacity):
         Room.room_id += 1
+        self.id = Room.room_id
         self.room_number = room_number
         self.room_type = room_type
         self.room_status = room_status
