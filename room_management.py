@@ -44,7 +44,7 @@ def create_new_room():
         new_room_capacity=input("Please enter the room capacity: ")
         try:
             new_room_capacity = int(new_room_capacity)
-            if new_room_capacity > 6: #checks validity of room capacity input, max room capacity 6 pax
+            if 6 < new_room_capacity <= 0: #checks validity of room capacity input, max room capacity 6 pax
                 print("Invalid room capacity. Please try again, room capacity can't exceeds 6.")
             else:
                 break
