@@ -10,8 +10,16 @@ def create_new_room():
     #Room number input
     while True:
         new_room_number=input("Please enter the room number: ") #Asks the user for the room number
-        if new_room_number == "":
-            print("Please enter a valid room number.")
+        try:
+            new_room_number = int(new_room_number) #need to make into int to check for duplicates when loading from csv
+            if new_room_number < 1:
+                print("Please enter a number greater than 0")
+                continue
+        except ValueError:
+            print("Room number must be a number. Please try again.")
+            continue
+        if any(room.room_number == new_room_number for room in room_class.Room.room_registry):
+            print("Room number is already taken. Please try again.")
         else:
             break
 
@@ -111,6 +119,6 @@ def create_new_room():
     print(tabulate([room_data], headers="keys", tablefmt="fancy_grid"))
 
 
-
 room_class.load_room_data()
+print(room_class.Room.room_registry)
 create_new_room()
