@@ -1,0 +1,11 @@
+ID,Room Number,Room Type,Room Capacity,Room Status,Room Condition,Room Access Pin,Room Rate
+1,001,Suite Room,2,Empty,Dirty,1212,234
+1,100,Deluxe Room,2,Empty,Dirty,2323,333
+1,001,Suite Room,4,Empty,Clean,4567,200
+1,001,Deluxe Room,2,Empty,Dirty,2222,344
+1,001,Deluxe Room,4,Empty,Dirty,1111,255
+1,001,Deluxe Room,2,Empty,Dirty,2222,555
+1,001,Deluxe Room,2,Empty,Dirty,2222,522
+1,001,Deluxe Room,2,Empty,Dirty,2222,2222
+1,001,Deluxe Room,2,Empty,Dirty,2222,2222
+1,001,Deluxe Room,2,Empty,Dirty,2222,22222
