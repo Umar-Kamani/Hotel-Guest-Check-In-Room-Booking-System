@@ -6,19 +6,19 @@ def create_new_room():
     print("___________________________________")
     print("Welcome to the Room Creation Wizard")
     print("___________________________________")
-    new_room_status = "Empty"
+    room_status = "Empty"
     #Room number input
     while True:
-        new_room_number=input("Please enter the room number: ") #Asks the user for the room number
+        room_number=input("Please enter the room number: ") #Asks the user for the room number
         try:
-            new_room_number = int(new_room_number) #need to make into int to check for duplicates when loading from csv
-            if new_room_number < 1:
+            room_number = int(room_number) #need to make into int to check for duplicates when loading from csv
+            if room_number < 1:
                 print("Please enter a number greater than 0")
                 continue
         except ValueError:
             print("Room number must be a number. Please try again.")
             continue
-        if any(room.room_number == new_room_number for room in room_class.Room.room_registry):
+        if any(room.room_number == room_number for room in room_class.Room.room_registry):
             print("Room number is already taken. Please try again.")
         else:
             break
@@ -30,18 +30,18 @@ def create_new_room():
               1. Standard Room
               2. Deluxe Room
               3. Suite Room""")
-        new_room_type=input("Please select your room type: ") #we prompt the user to enter a number according to the room type
-        if new_room_type == '1':
-            new_room_type = "Standard Room"
-            print(f"Room Type: {new_room_type}.")
+        room_type=input("Please select your room type: ") #we prompt the user to enter a number according to the room type
+        if room_type == '1':
+            room_type = "Standard Room"
+            print(f"Room Type: {room_type}.")
             break
-        elif new_room_type == '2':
-            new_room_type = "Deluxe Room"
-            print(f"Room Type: {new_room_type}.")
+        elif room_type == '2':
+            room_type = "Deluxe Room"
+            print(f"Room Type: {room_type}.")
             break
-        elif new_room_type == '3':
-            new_room_type = "Suite Room"
-            print(f"Room Type: {new_room_type}.")
+        elif room_type == '3':
+            room_type = "Suite Room"
+            print(f"Room Type: {room_type}.")
             break
         else :
             print("Invalid room type. Please try again.")
@@ -49,10 +49,10 @@ def create_new_room():
     print("___________________________________")
     #Room capacity input
     while True:
-        new_room_capacity=input("Please enter the room capacity: ")
+        room_capacity=input("Please enter the room capacity: ")
         try:
-            new_room_capacity = int(new_room_capacity)
-            if 6 < new_room_capacity <= 0: #checks validity of room capacity input, max room capacity 6 pax
+            room_capacity = int(room_capacity)
+            if not 0 < room_capacity <= 6: #checks validity of room capacity input, max room capacity 6 pax
                 print("Invalid room capacity. Please try again, room capacity can't exceeds 6.")
             else:
                 break
@@ -65,14 +65,14 @@ def create_new_room():
         print("""Room Condition:
               1. Clean
               2. Dirty""")
-        new_room_condition=input("Please enter the room condition: ")
-        if new_room_condition == '1':
-            new_room_condition = "Clean"
-            print(f"Room Condition: {new_room_condition}")
+        room_condition=input("Please enter the room condition: ")
+        if room_condition == '1':
+            room_condition = "Clean"
+            print(f"Room Condition: {room_condition}")
             break
-        elif new_room_condition == '2':
-            new_room_condition = "Dirty"
-            print(f"Room Condition: {new_room_condition}")
+        elif room_condition == '2':
+            room_condition = "Dirty"
+            print(f"Room Condition: {room_condition}")
             break
         else :
             print("Invalid room condition. Please try again.")
@@ -80,9 +80,9 @@ def create_new_room():
     print("___________________________________")
     #Room Access Pin input
     while True:
-        new_room_access_pin=input("Please enter the room access pin: ")
+        room_access_pin=input("Please enter the room access pin: ")
         try:
-            if not new_room_access_pin.isdigit() or len(new_room_access_pin) != 4: #this function checks for a valid 4 digit access pin
+            if not room_access_pin.isdigit() or len(room_access_pin) != 4: #this function checks for a valid 4 digit access pin
                 print("Invalid room access pin. Room access pin must be 4 digits long.")
             else:
                 break
@@ -92,11 +92,10 @@ def create_new_room():
     print("___________________________________")
     #Room Rate input
     while True:
-
-        new_room_rate=input("Please enter the room rate: $")
+        room_rate=input("Please enter the room rate: $")
         try:
-            new_room_rate = float(new_room_rate)
-            if new_room_rate <= 0:
+            room_rate = float(room_rate)
+            if room_rate <= 0:
                 print("Invalid room rate. Please try again.")
             else:
                 break
@@ -104,17 +103,17 @@ def create_new_room():
             print("Invalid room rate. Please try again.")
 
     print("___________________________________")
-    room = room_class.Room(new_room_number, new_room_type, new_room_capacity, new_room_status, new_room_condition, new_room_access_pin, new_room_rate) #makes new room into an object
+    room = room_class.Room(room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate) #makes new room into an object
     print("___________________________________________________________")
     print("Room Successfully Created, please verify room details below:\n")
     room_data = {
-        "Room Number": new_room_number,
-        "Room Type": new_room_type,
-        "Room Capacity": new_room_capacity,
-        "Room Status": new_room_status,
-        "Room Condition": new_room_condition,
-        "Room Access Pin": new_room_access_pin,
-        "Room Rate ($)": new_room_rate,
+        "Room Number": room_number,
+        "Room Type": room_type,
+        "Room Capacity": room_capacity,
+        "Room Status": room_status,
+        "Room Condition": room_condition,
+        "Room Access Pin": room_access_pin,
+        "Room Rate ($)": room_rate,
     }
     print(tabulate([room_data], headers="keys", tablefmt="fancy_grid"))
 
@@ -170,26 +169,37 @@ def modify_room():
     elif details_modify == '2':
         edit_room_type(room_num_modify)
     elif details_modify == '3':
+        edit_room_capacity(room_num_modify)
+    elif details_modify == '4':
+        edit_room_status(room_num_modify)
+    elif details_modify == '5':
+        edit_room_condition(room_num_modify)
+    elif details_modify == '6':
+        edit_room_access_pin(room_num_modify)
+    elif details_modify == '7':
+        edit_room_rate(room_num_modify)
+    else:
+        return
 
 
 def edit_room_number(room_num_modify):
     while True:
-        new_room_number_modify = input("Please enter the new room number: ")
-        if any(room.room_number == new_room_number_modify for room in room_class.Room.room_registry):
+        new_room_number = input("Please enter the new room number: ")
+        if any(room.room_number == new_room_number for room in room_class.Room.room_registry):
             print("Room Number already exists. Please enter a new room number.")
         else:
             try:
-                room_number_modify = int(new_room_number_modify)
+                new_room_number = int(new_room_number)
                 break
             except ValueError:
                 print("Invalid room number. Please try again.")
 
     for t in room_class.Room.room_registry:
         if t.room_number == room_num_modify:
-            t.room_number = new_room_number_modify
+            t.room_number = new_room_number
             room_class.Room.save_after_modification()
             print("Room Number Updated")
-            view_modified_room(new_room_number_modify)
+            view_modified_room(new_room_number)
 
 
 def edit_room_type(room_num_modify):
@@ -198,28 +208,138 @@ def edit_room_type(room_num_modify):
                       1. Standard Room
                       2. Deluxe Room
                       3. Suite Room""")
-        new_room_type_modify = input("Please select new room type: ")
-        if new_room_type_modify == '1':
+        new_room_type = input("Please select new room type: ")
+        if new_room_type == '1':
             new_room_type = "Standard Room"
-            print(f"Room Type '{new_room_type_modify}' selected.")
+            print(f"Room Type '{new_room_type}' selected.")
             break
-        elif new_room_type_modify == '2':
+        elif new_room_type == '2':
             new_room_type = "Deluxe Room"
-            print(f"Room Type '{new_room_type_modify}' selected.")
+            print(f"Room Type '{new_room_type}' selected.")
             break
-        elif new_room_type_modify == '3':
+        elif new_room_type == '3':
             new_room_type = "Suite Room"
-            print(f"Room Type '{new_room_type_modify}' selected.")
+            print(f"Room Type '{new_room_type}' selected.")
             break
         else:
             print("Invalid room type. Please try again.")
 
     for t in room_class.Room.room_registry:
         if t.room_number == room_num_modify:
-            t.room_type = new_room_type_modify
+            t.room_type = new_room_type
             room_class.Room.save_after_modification()
             print("Room Type Updated")
     view_modified_room(room_num_modify)
+    
+def edit_room_capacity(room_num_modify):
+    while True:
+        new_room_capacity = input("Please enter the room capacity: ")
+        try:
+            new_room_capacity = int(new_room_capacity)
+        except ValueError:
+            print("Invalid room capacity. Please try again.")
+        if not 0 < new_room_capacity <= 6:  # checks validity of room capacity input, max room capacity 6 pax
+            print("Invalid room capacity. Please try again, room capacity can't exceeds 6.")
+        else:
+            break
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_capacity = new_room_capacity
+            room_class.Room.save_after_modification()
+            print("Room Type Updated")
+    view_modified_room(room_num_modify)
+
+def edit_room_status(room_num_modify):
+    while True:
+        print("""Room Status:
+                      1. Empty
+                      2. Booked
+                      3. Occupied""")
+        new_room_status = input("Please enter the room status: ")
+        if new_room_status == '1':
+            new_room_status = "Empty"
+            print(f"Room Status '{new_room_status}' selected.")
+            break
+        elif new_room_status == '2':
+            new_room_status = "Booked"
+            print(f"Room Status '{new_room_status}' selected.")
+            break
+        elif new_room_status == '3':
+            new_room_status = "Occupied"
+            print(f"Room Status '{new_room_status}' selected.")
+            break
+        else:
+            print("Invalid room Status. Please try again.")
+
+        for t in room_class.Room.room_registry:
+            if t.room_number == room_num_modify:
+                t.room_status = new_room_status
+                room_class.Room.save_after_modification()
+                print("Room Status Updated")
+        view_modified_room(room_num_modify)
+
+def edit_room_condition(room_num_modify):
+    while True:
+        print("""Room Condition:
+                      1. Clean
+                      2. Dirty""")
+        new_room_condition = input("Please enter the room condition: ")
+        if new_room_condition == '1':
+            new_room_condition = "Clean"
+            print(f"Room Condition '{new_room_condition}' selected.")
+            break
+        elif new_room_condition == '2':
+            new_room_condition = "Dirty"
+            print(f"Room Condition '{new_room_condition}' selected.")
+            break
+        else:
+            print("Invalid room condition. Please try again.")
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_condition = new_room_condition
+            room_class.Room.save_after_modification()
+            print("Room Condition Updated")
+    view_modified_room(room_num_modify)
+
+def edit_room_access_pin(room_num_modify):
+    while True:
+        new_room_access_pin = input("Please enter the room access pin: ")
+        try:
+            if not new_room_access_pin.isdigit() or len(new_room_access_pin) != 4:  # this function checks for a valid 4 digit access pin
+                print("Invalid room access pin. Room access pin must be 4 digits long.")
+            else:
+                break
+        except ValueError:
+            print("Invalid room access pin. Room access pin must be 4 digits long.")
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_access_pin = new_room_access_pin
+            room_class.Room.save_after_modification()
+            print("Room Access Pin Updated")
+    view_modified_room(room_num_modify)
+
+def edit_room_rate(room_num_modify):
+    while True:
+        new_room_rate=input("Please enter the room rate: $")
+        try:
+            new_room_rate = float(new_room_rate)
+            if new_room_rate <= 0:
+                print("Invalid room rate. Please try again.")
+            else:
+                break
+        except ValueError:
+            print("Invalid room rate. Please try again.")
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_rate = new_room_rate
+            room_class.Room.save_after_modification()
+            print("Room Rate Updated")
+    view_modified_room(room_num_modify)
+
 
 def view_modified_room(modified_room_number):
     view_room=[]
@@ -245,9 +365,5 @@ def view_modified_room(modified_room_number):
 
 
 
-
 room_class.load_room_data()
-print(room_class.Room.room_registry)
-#create_new_room()
-#modify_room()
-edit_room_type()
+modify_room()
