@@ -43,6 +43,34 @@ class Room:
                 self.room_access_pin,
                 self.room_rate
             ])
+
+    @classmethod
+    def save_after_modification(cls):
+        os.makedirs(cls.dir_name, exist_ok=True)
+
+        with open(cls.file_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([
+                "Room Number",
+                "Room Type",
+                "Room Capacity",
+                "Room Status",
+                "Room Condition",
+                "Room Access Pin",
+                "Room Rate"
+            ])
+
+            for room in cls.room_registry:
+                writer.writerow([
+                    room.room_number,
+                    room.room_type,
+                    room.room_capacity,
+                    room.room_status,
+                    room.room_condition,
+                    room.room_access_pin,
+                    room.room_rate
+                ])
+
 def load_room_data():
     if not os.path.exists(Room.file_path):
         return
@@ -60,6 +88,6 @@ def load_room_data():
                     row["Room Rate"],
                     save = False
                 )
-            Room.room_registry.append(room) #Appends all rooms from csv to memory
+            #Room.room_registry.append(room) #Appends all rooms from csv to memory
     return
 
