@@ -340,6 +340,23 @@ def edit_room_rate(room_num_modify):
             print("Room Rate Updated")
     view_modified_room(room_num_modify)
 
+def delete_room():
+    while True:
+        delete_room_num = input("Please enter the room number of the room you want to delete: ")
+        try:
+            delete_room_num = int(delete_room_num)
+            if any(room.room_number == delete_room_num for room in room_class.Room.room_registry):
+                break
+            else:
+                print("Room doesn't exist. Please enter a valid room number.")
+        except ValueError:
+            print("Invalid room number. Please try again.")
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == delete_room_num:
+            room_class.Room.room_registry.remove(t)
+            room_class.Room.save_after_modification()
+            print("Room Deleted Successfully")
 
 def view_modified_room(modified_room_number):
     view_room=[]
@@ -356,7 +373,78 @@ def view_modified_room(modified_room_number):
             })
     print(tabulate(view_room, headers="keys", tablefmt="fancy_grid"))
 
+def view_all_rooms():
+    all_rooms = []
+    for room in room_class.Room.room_registry:
+        all_rooms.append({
+            "Room Number": room.room_number,
+            "Room Type": room.room_type,
+            "Room Capacity": room.room_capacity,
+            "Room Status": room.room_status,
+            "Room Condition": room.room_condition,
+            "Room Access Pin": room.room_access_pin,
+            "Room Rate ($)": room.room_rate,
+        })
+    print(tabulate(all_rooms, headers="keys", tablefmt="fancy_grid"))
 
+def view_specific_room():
+    while True:
+        view_room_number = input("Please enter the room number of the room you want to view: ")
+        try:
+            view_room_number = int(view_room_number)
+            if any(room.room_number == view_room_number for room in room_class.Room.room_registry):
+                break
+            else:
+                print("Room doesn't exist. Please enter a valid room number.")
+        except ValueError:
+            print("Invalid room number. Please try again.")
+    specific_room_list = []
+
+    for room in room_class.Room.room_registry:
+        if room.room_number == view_room_number:
+            specific_room_list.append({
+                "Room Number": room.room_number,
+                "Room Type": room.room_type,
+                "Room Capacity": room.room_capacity,
+                "Room Status": room.room_status,
+                "Room Condition": room.room_condition,
+                "Room Access Pin": room.room_access_pin,
+                "Room Rate ($)": room.room_rate,
+            })
+    print(f"Please find all details about room {view_room_number} below.")
+    print(tabulate(specific_room_list, headers="keys", tablefmt="fancy_grid"))
+
+def view_available_rooms():
+    available_rooms = []
+    for room in room_class.Room.room_registry:
+        if room.room_status == "Empty":
+            available_rooms.append({
+                "Room Number": room.room_number,
+                "Room Type": room.room_type,
+                "Room Capacity": room.room_capacity,
+                "Room Status": room.room_status,
+                "Room Condition": room.room_condition,
+                "Room Access Pin": room.room_access_pin,
+                "Room Rate ($)": room.room_rate,
+            })
+    print(f"Please find all available rooms below.")
+    print(tabulate(available_rooms, headers="keys", tablefmt="fancy_grid"))
+
+def view_occupied_rooms():
+    occupied_rooms = []
+    for room in room_class.Room.room_registry:
+        if room.room_status == "Occupied" or "Booked":
+            occupied_rooms.append({
+                "Room Number": room.room_number,
+                "Room Type": room.room_type,
+                "Room Capacity": room.room_capacity,
+                "Room Status": room.room_status,
+                "Room Condition": room.room_condition,
+                "Room Access Pin": room.room_access_pin,
+                "Room Rate ($)": room.room_rate,
+            })
+    print(f"Please find all Occupied or Booked rooms below.")
+    print(tabulate(occupied_rooms, headers="keys", tablefmt="fancy_grid"))
 
 
 
@@ -366,4 +454,5 @@ def view_modified_room(modified_room_number):
 
 
 room_class.load_room_data()
-modify_room()
+view_all_rooms()
+view_specific_room()
