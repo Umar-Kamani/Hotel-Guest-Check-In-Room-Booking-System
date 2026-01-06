@@ -3,7 +3,7 @@ from tabulate import tabulate
 
 
 def create_new_room():
-
+    print("___________________________________")
     print("Welcome to the Room Creation Wizard")
     print("___________________________________")
     new_room_status = "Empty"
@@ -104,7 +104,7 @@ def create_new_room():
             print("Invalid room rate. Please try again.")
 
     print("___________________________________")
-    new_room = room_class.Room(new_room_number, new_room_type, new_room_capacity, new_room_status, new_room_condition, new_room_access_pin, new_room_rate) #makes new room into an object
+    room = room_class.Room(new_room_number, new_room_type, new_room_capacity, new_room_status, new_room_condition, new_room_access_pin, new_room_rate) #makes new room into an object
     print("___________________________________________________________")
     print("Room Successfully Created, please verify room details below:\n")
     room_data = {
@@ -118,7 +118,136 @@ def create_new_room():
     }
     print(tabulate([room_data], headers="keys", tablefmt="fancy_grid"))
 
+def modify_room():
+    print("___________________________________")
+    print("Welcome to the Room Modification Menu")
+    print("___________________________________")
+    while True:
+        room_num_modify = input("Please enter the room number of the room you want to modify: ")
+        try:
+            room_num_modify = int(room_num_modify)
+            if any(room.room_number == room_num_modify for room in room_class.Room.room_registry):
+                break
+            else:
+                print("Room doesn't exist. Please enter a valid room number.")
+        except ValueError:
+            print("Invalid room number. Please try again.")
+
+    old_room_filter=[t for t in room_class.Room.room_registry if t.room_number == room_num_modify]
+    old_room_list=[]
+
+    for t in old_room_filter:
+        if t.room_number == room_num_modify:
+            old_room_list.append({
+                "Room Number": t.room_number,
+                "Room Type": t.room_type,
+                "Room Capacity": t.room_capacity,
+                "Room Status": t.room_status,
+                "Room Condition": t.room_condition,
+                "Room Access Pin": t.room_access_pin,
+                "Room Rate ($)": t.room_rate,
+            })
+
+    print("\nPlease verify room details below:")
+    print(tabulate(old_room_list, headers="keys", tablefmt="fancy_grid"))
+    print("Room Details")
+    print("1. Room Number")
+    print("2. Room Type")
+    print("3. Room Capacity")
+    print("4. Room Status")
+    print("5. Room Condition")
+    print("6. Room Access Pin")
+    print("7. Room Rate ($)")
+    print("8. Exit")
+    while True:
+        details_modify = input("Please select room details to modify: ")
+        if details_modify not in ('1', '2', '3', '4', '5', '6', '7', '8', 'exit'):
+            print("Invalid choice. Please try again.")
+        else:
+            break
+    if details_modify == '1':
+        edit_room_number(room_num_modify)
+    elif details_modify == '2':
+        edit_room_type(room_num_modify)
+    elif details_modify == '3':
+
+
+def edit_room_number(room_num_modify):
+    while True:
+        new_room_number_modify = input("Please enter the new room number: ")
+        if any(room.room_number == new_room_number_modify for room in room_class.Room.room_registry):
+            print("Room Number already exists. Please enter a new room number.")
+        else:
+            try:
+                room_number_modify = int(new_room_number_modify)
+                break
+            except ValueError:
+                print("Invalid room number. Please try again.")
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_number = new_room_number_modify
+            room_class.Room.save_after_modification()
+            print("Room Number Updated")
+            view_modified_room(new_room_number_modify)
+
+
+def edit_room_type(room_num_modify):
+    while True:
+        print("""Room Types:
+                      1. Standard Room
+                      2. Deluxe Room
+                      3. Suite Room""")
+        new_room_type_modify = input("Please select new room type: ")
+        if new_room_type_modify == '1':
+            new_room_type = "Standard Room"
+            print(f"Room Type '{new_room_type_modify}' selected.")
+            break
+        elif new_room_type_modify == '2':
+            new_room_type = "Deluxe Room"
+            print(f"Room Type '{new_room_type_modify}' selected.")
+            break
+        elif new_room_type_modify == '3':
+            new_room_type = "Suite Room"
+            print(f"Room Type '{new_room_type_modify}' selected.")
+            break
+        else:
+            print("Invalid room type. Please try again.")
+
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_type = new_room_type_modify
+            room_class.Room.save_after_modification()
+            print("Room Type Updated")
+    view_modified_room(room_num_modify)
+
+def view_modified_room(modified_room_number):
+    view_room=[]
+    for room in room_class.Room.room_registry:
+        if room.room_number == modified_room_number:
+            view_room.append({
+                "Room Number": room.room_number,
+                "Room Type": room.room_type,
+                "Room Capacity": room.room_capacity,
+                "Room Status": room.room_status,
+                "Room Condition": room.room_condition,
+                "Room Access Pin": room.room_access_pin,
+                "Room Rate ($)": room.room_rate,
+            })
+    print(tabulate(view_room, headers="keys", tablefmt="fancy_grid"))
+
+
+
+
+
+
+
+
+
+
 
 room_class.load_room_data()
 print(room_class.Room.room_registry)
-create_new_room()
+#create_new_room()
+#modify_room()
+edit_room_type()
