@@ -1,41 +1,78 @@
+import os
+from datetime import datetime
+from tabulate import tabulate
+
 class Guest:
-    def __init__(self, guest_id, full_name, phone_number, id_number, date_of_birth):
-        self.guest_id = guest_id
-        self.full_name = full_name
-        self.phone_number = phone_number
-        self.id_number = id_number
-        self.date_of_birth = date_of_birth
-        self.validate()
+    def create_new_guest():
+    print("___________________________________")
+    print("Welcome to the Guest Creation Wizard")
+    print("___________________________________")
 
- def __str__(self):
-        return f"Guest[{self.guest_id}] - {self.full_name}"
+    # Guest ID input (check duplicates)
+    while True:
+        guest_id = input("Please enter the Guest ID: ")
+        if not guest_id.strip():
+            print("Guest ID cannot be empty. Please try again.")
+            continue
+        existing = Guest.load_from_file()
+        if any(g.guest_id == guest_id for g in existing):
+            print("Guest ID is already taken. Please try again.")
+        else:
+            break
 
-        #This is to validate guest data
-def validate(self):
-        if not self.guest_id:
-            raise ValueError("Guest ID is required")
-        if not self.full_name or len(self.full_name.strip()) == 0:
-            raise ValueError("Full name is required")
-        if not self.phone_number:
-            raise ValueError("Phone number is required")
-        if not self.id_number:
-            raise ValueError("ID number is required")
-        if not self.date_of_birth:
-            raise ValueError("Date of birth is required")
-        
-        # Basic phone number validation (should contain digits)
-        if not any(char.isdigit() for char in self.phone_number):
-            raise ValueError("Phone number must contain digits")
+    print("___________________________________")
+    # Full name input
+    while True:
+        full_name = input("Please enter the guest's full name: ")
+        if not full_name.strip():
+            print("Full name cannot be empty. Please try again.")
+        else:
+            break
 
-    def to_dict(self):
-        # Convert guest details to dictionary for saving to file.
-        return {
-            "guest_id": self.guest_id,
-            "full_name": self.full_name,
-            "phone_number": self.phone_number,
-            "id_number": self.id_number,
-            "date_of_birth": self.date_of_birth
-        }
+    print("___________________________________")
+    # Phone number input
+    while True:
+        phone_number = input("Please enter the guest's phone number: ")
+        if not phone_number.strip():
+            print("Phone number cannot be empty. Please try again.")
+            continue
+        if not any(ch.isdigit() for ch in phone_number):
+            print("Phone number must contain digits. Please try again.")
+        else:
+            break
 
-   
+    print("___________________________________")
+    # ID number input
+    while True:
+        id_number = input("Please enter the guest's ID/Passport number: ")
+        if not id_number.strip():
+            print("ID number cannot be empty. Please try again.")
+        else:
+            break
 
+    print("___________________________________")
+    # Date of birth input
+    while True:
+        date_of_birth = input("Please enter the Date of Birth (YYYY-MM-DD): ")
+        try:
+            datetime.strptime(date_of_birth, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD.")
+
+    guest = Guest(guest_id, full_name, phone_number, id_number, date_of_birth)
+
+    print("___________________________________________________________")
+    print("Guest Successfully Created, please verify guest details below:\n")
+    data = {
+        "Guest ID": guest_id,
+        "Full Name": full_name,
+        "Phone Number": phone_number,
+        "ID Number": id_number,
+        "Date of Birth": date_of_birth,
+    }
+    if tabulate:
+        print(tabulate([data], headers="keys", tablefmt="fancy_grid"))
+    else:
+        for k, v in data.items():
+            print(f"{k}: {v}")
