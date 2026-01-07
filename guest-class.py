@@ -2,13 +2,12 @@ import os
 from datetime import datetime
 from tabulate import tabulate
 
-
 def create_new_guest():
     print("___________________________________")
     print("Welcome to the Guest Creation Wizard")
     print("___________________________________")
 
-    # Guest ID input (check duplicates) #to auto-generate guestid
+    # Guest ID input (check duplicates)
     while True:
         guest_id = input("Please enter the Guest ID: ")
         if not guest_id.strip():
@@ -22,7 +21,7 @@ def create_new_guest():
 
     print("___________________________________")
     # Full name input
-    while True: #validate inputs, since user can enter anything as name even numbers etc..
+    while True:
         full_name = input("Please enter the guest's full name: ")
         if not full_name.strip():
             print("Full name cannot be empty. Please try again.")
