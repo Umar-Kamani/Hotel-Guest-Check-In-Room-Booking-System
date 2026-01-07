@@ -2,8 +2,7 @@ import os
 from datetime import datetime
 from tabulate import tabulate
 
-class Guest:
-    def create_new_guest():
+def create_new_guest():
     print("___________________________________")
     print("Welcome to the Guest Creation Wizard")
     print("___________________________________")
