@@ -76,5 +76,4 @@ def load_guest_data():
                     row["Date of Birth"],
                     save = False
                 )
-            #Guest.guest_registry.append(guest) #Appends all guests from csv to memory
     return
