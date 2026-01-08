@@ -75,7 +75,7 @@ class Room:
                     room.room_status,
                     room.room_condition,
                     room.room_access_pin,
-                    room.room_rate
+                    room.room_rate,
                     room.room_availability
                 ])
 
