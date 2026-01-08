@@ -446,13 +446,3 @@ def view_occupied_rooms():
     print(f"Please find all Occupied or Booked rooms below.")
     print(tabulate(occupied_rooms, headers="keys", tablefmt="fancy_grid"))
 
-
-
-
-
-
-
-
-room_class.load_room_data()
-view_all_rooms()
-create_new_room()
