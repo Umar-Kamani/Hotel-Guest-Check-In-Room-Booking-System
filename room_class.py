@@ -2,14 +2,13 @@ import csv
 import os
 
 class Room:
-    room_registry=[]
-    room_id = 0
-    file_name = "rooms.csv"
-    file_path = f"data/{file_name}"
+    room_registry=[] #memory to store room data
+    dir_name = "data" #directory name of room.csv file
+    file_name = "rooms.csv" #name of csv file
+    file_path = f"{dir_name}/{file_name}" #path of rooms.csv file
 
-    def __init__(self, room_number, room_type, room_status, room_rate, room_condition, room_access_pin, room_capacity):
-        Room.room_id += 1
-        self.id = Room.room_id
+    def __init__(self, room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate,
+                 save=True):
         self.room_number = room_number
         self.room_type = room_type
         self.room_status = room_status
@@ -17,16 +16,17 @@ class Room:
         self.room_condition = room_condition
         self.room_access_pin = room_access_pin
         self.room_capacity = room_capacity
-        Room.room_registry.append(self)
-        self.save_to_csv()
+        Room.room_registry.append(self) #Automatically appends any room objects to the room_registry list
+        if save: #This statement prevents the program from saving to the rooms.csv file twice
+            self.save_to_csv()
 
-    def save_to_csv(self):
-        room_file_exists = os.path.exists(Room.file_path)
-        with open(Room.file_path, 'a', newline='') as csvfile:
+    def save_to_csv(self): #method to save data from memory into the rooms.csv file
+        os.makedirs("data", exist_ok=True) #Creates directory if it doesn't exist
+        room_file_exists = os.path.exists(Room.file_path) #Checks if the room.csv exists and stores the result as a boolean
+        with open(Room.file_path, 'a', newline='') as csvfile: #writes data to rooms.csv file
             writer = csv.writer(csvfile)
-            if not room_file_exists:
+            if not room_file_exists: #if room_file_exist is False, header row is added
                 writer.writerow([
-                    "ID",
                     "Room Number",
                     "Room Type",
                     "Room Capacity",
@@ -36,7 +36,6 @@ class Room:
                     "Room Rate"
                 ])
             writer.writerow([
-                self.id,
                 self.room_number,
                 self.room_type,
                 self.room_capacity,
@@ -45,11 +44,50 @@ class Room:
                 self.room_access_pin,
                 self.room_rate
             ])
-    def load_room_data(self):
-        if not os.path.exists(Room.file_path):
-            return
-        else:
-            with open(Room.file_path, 'r') as csvfile:
-                reader = csv.reader(csvfile)
-                print(reader)
+
+    @classmethod #enables us to import class parameters and use them into this function
+    def save_after_modification(cls): # This function enables us to save any modifications made to a room back to its correct entry in the csv file
+        os.makedirs(cls.dir_name, exist_ok=True) #fail-safe
+
+        with open(cls.file_path, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([
+                "Room Number",
+                "Room Type",
+                "Room Capacity",
+                "Room Status",
+                "Room Condition",
+                "Room Access Pin",
+                "Room Rate"
+            ])
+
+            for room in cls.room_registry:
+                writer.writerow([
+                    room.room_number,
+                    room.room_type,
+                    room.room_capacity,
+                    room.room_status,
+                    room.room_condition,
+                    room.room_access_pin,
+                    room.room_rate
+                ])
+
+def load_room_data():
+    if not os.path.exists(Room.file_path): #checks if the rooms.csv file exist, if it doesn't it doesn't try to load us the room data into memory
+        return
+    else: #loads room data into memory so that program is responsive and enables us to use the room_registry to check for data instead of always going to the csv file
+        with open(Room.file_path, 'r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                room = Room(
+                    int(row["Room Number"]),
+                    row["Room Type"],
+                    row["Room Capacity"],
+                    row["Room Status"],
+                    row["Room Condition"],
+                    row["Room Access Pin"],
+                    row["Room Rate"],
+                    save = False
+                )
+    return
 

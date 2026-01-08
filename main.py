@@ -1,4 +1,13 @@
+import booking_class
+import guest_class
+import room_class
 import room_management
+
+print("Loading data...")
+room_class.load_room_data()
+guest_class.load_guest_data()
+booking_class.load_booking_data()
+print("Data loaded Successfully!!")
 
 def main_menu():
     print("Welcome to Room Booking System Main Menu")
@@ -56,30 +65,34 @@ def room_management_menu():
     print("1. View all rooms.")
     print("2. View specific room.")
     print("3. View available rooms.")
-    print("4. View occupied room.")
+    print("4. View occupied/Booked rooms.")
     print("5. Create new room.")
     print("6. Delete room.")
     print("7. Modify room.")
     print("8. Exit")
     while True:  # This loop checks for correct user choice input
         room_menu_choice = input("Enter your choice: ").lower()
-        if room_menu_choice not in ('1', '2', '3', '4', 'exit'):
+        if room_menu_choice not in ('1', '2', '3', '4', '5', '6', '7', '8' or 'exit'):
             print("Invalid choice. Please try again.")
         else:
             break
     if room_menu_choice == '1':
-
+        room_management.view_all_rooms()
     elif room_menu_choice == '2':
-
+        room_management.view_specific_room()
     elif room_menu_choice == '3':
-
+        room_management.view_available_rooms()
     elif room_menu_choice == '4':
-
+        room_management.view_occupied_rooms()
     elif room_menu_choice == '5':
         room_management.create_new_room()
+    elif room_menu_choice == '6':
+        room_management.delete_room()
+    elif room_menu_choice == '7':
+        room_management.modify_room()
     elif room_menu_choice == '8' or room_menu_choice == 'exit':
         print("Thank you.")
-        exit()
+        return main_menu()
 
 def reporting_analytics_menu():
     print("Welcome to Reporting & Analytics Menu")
@@ -92,16 +105,19 @@ def reporting_analytics_menu():
     print("7. History of past guests")
     while True:  # This loop checks for correct user choice input
         room_menu_choice = input("Enter your choice: ")
-        if room_menu_choice not in ('1', '2', '3', '4', 'exit'):
+        if room_menu_choice not in ('1', '2', '3', '4', '5', '6', '7' or 'exit'):
             print("Invalid choice. Please try again.")
         else:
             break
     if room_menu_choice == '1':
-
+        room_management.view_all_rooms()
     elif room_menu_choice == '2':
-
+        room_management.view_specific_room()
     elif room_menu_choice == '3':
-
+        room_management.view_available_rooms()
+    elif room_menu_choice == '4':
+        room_management.view_occupied_rooms()
+    elif room_menu_choice == '5':
     elif room_menu_choice == '4' or room_menu_choice == 'exit':
         print("Thank you.")
         exit()
