@@ -7,7 +7,7 @@ class Room:
     file_name = "rooms.csv"
     file_path = f"{dir_name}/{file_name}"
 
-    def __init__(self, room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate, save=True):
+    def __init__(self, room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate, availability, save=True):
         self.room_number = room_number
         self.room_type = room_type
         self.room_status = room_status
@@ -16,6 +16,10 @@ class Room:
         self.room_access_pin = room_access_pin
         self.room_capacity = room_capacity
         Room.room_registry.append(self)
+        if room_status == "Empty":
+            self.room_availability = True
+        else:
+            self.room_availability = False
         if save:
             self.save_to_csv()
 
@@ -33,6 +37,7 @@ class Room:
                     "Room Condition",
                     "Room Access Pin",
                     "Room Rate"
+                    "Room Availability",
                 ])
             writer.writerow([
                 self.room_number,
@@ -41,7 +46,8 @@ class Room:
                 self.room_status,
                 self.room_condition,
                 self.room_access_pin,
-                self.room_rate
+                self.room_rate,
+                self.room_availability
             ])
 
     @classmethod
@@ -58,6 +64,7 @@ class Room:
                 "Room Condition",
                 "Room Access Pin",
                 "Room Rate"
+                "Room Availability",
             ])
 
             for room in cls.room_registry:
@@ -69,6 +76,7 @@ class Room:
                     room.room_condition,
                     room.room_access_pin,
                     room.room_rate
+                    room.room_availability
                 ])
 
 def load_room_data():
@@ -86,6 +94,7 @@ def load_room_data():
                     row["Room Condition"],
                     row["Room Access Pin"],
                     row["Room Rate"],
+                    row["Room Availability"],
                     save = False
                 )
     return
