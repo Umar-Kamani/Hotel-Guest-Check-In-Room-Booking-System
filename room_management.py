@@ -455,4 +455,4 @@ def view_occupied_rooms():
 
 room_class.load_room_data()
 view_all_rooms()
-view_specific_room()
+create_new_room()
