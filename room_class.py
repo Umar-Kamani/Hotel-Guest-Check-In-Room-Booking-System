@@ -88,6 +88,5 @@ def load_room_data():
                     row["Room Rate"],
                     save = False
                 )
-            #Room.room_registry.append(room) #Appends all rooms from csv to memory
     return
 
