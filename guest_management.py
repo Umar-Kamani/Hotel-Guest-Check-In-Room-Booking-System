@@ -19,7 +19,6 @@ class Guest:
         self.guest_id = f"G{Guest.guest_id:03d}"
         self.full_name = full_name
         self.phone_number = phone_number
-        self.id_number = id_number
         self.date_of_birth = date_of_birth
 
         Guest.guest_registry.append(self)
@@ -32,6 +31,9 @@ while True:
             print("Full name cannot be empty. Please try again.")
         else:
             break
+        if any(char.isdigit() for char in full_name):
+            print("Full name cannot contain numbers. Please enter only letters.")
+            continue
 
 print("___________________________________")
     # Phone number input
