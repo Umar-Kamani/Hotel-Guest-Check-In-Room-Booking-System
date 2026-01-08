@@ -1,7 +1,14 @@
+import booking_class
+import guest_class
 import room_class
 import room_management
 
+print("Loading data...")
 room_class.load_room_data()
+guest_class.load_guest_data()
+booking_class.load_booking_data()
+print("Data loaded Successfully!!")
+
 def main_menu():
     print("Welcome to Room Booking System Main Menu")
     print("1. Check In Guest")
