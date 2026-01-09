@@ -1,80 +1,65 @@
-import csv
-import os
+import guest_class
+from tabulate import tabulate
+from datetime import datetime
 
-class Guest:
-    guest_registry=[]
-    dir_name = "data"
-    file_name = "guests.csv"
-    file_path = f"{dir_name}/{file_name}"
 
-    def __init__(self, guest_id, full_name, phone_number, id_number, date_of_birth, save=True):
-        self.guest_id = guest_id
-        self.full_name = full_name
-        self.phone_number = phone_number
-        self.id_number = id_number
-        self.date_of_birth = date_of_birth
-        Guest.guest_registry.append(self)
-        if save:
-            self.save_to_csv()
+def create_new_guest():
+    print("___________________________________")
+    print("Welcome to the Guest Creation Wizard")
+    print("___________________________________")
 
-    def save_to_csv(self):
-        os.makedirs("data", exist_ok=True)
-        guest_file_exists = os.path.exists(Guest.file_path)
-        with open(Guest.file_path, 'a', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            if not guest_file_exists:
-                writer.writerow([
-                    "Guest ID",
-                    "Full Name",
-                    "Phone Number",
-                    "ID Number",
-                    "Date of Birth"
-                ])
-            writer.writerow([
-                self.guest_id,
-                self.full_name,
-                self.phone_number,
-                self.id_number,
-                self.date_of_birth
-            ])
+    # Generate Guest ID
+    guest_id = len(guest_class.Guest.guest_registry) + 1
 
-    @classmethod
-    def save_after_modification(cls):
-        os.makedirs(cls.dir_name, exist_ok=True)
+    # Full name input
+    while True:
+        full_name = input("Please enter the guest's full name: ")
+        if not full_name.strip():
+            print("Full name cannot be empty. Please try again.")
+        elif any(char.isdigit() for char in full_name):
+            print("Full name cannot contain numbers. Please enter only letters.")
+        else:
+            break
 
-        with open(cls.file_path, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow([
-                "Guest ID",
-                "Full Name",
-                "Phone Number",
-                "ID Number",
-                "Date of Birth"
-            ])
+    print("___________________________________")
 
-            for guest in cls.guest_registry:
-                writer.writerow([
-                    guest.guest_id,
-                    guest.full_name,
-                    guest.phone_number,
-                    guest.id_number,
-                    guest.date_of_birth
-                ])
+    # Phone number input
+    while True:
+        guest_phone_number = input("Please enter the guest's phone number: ")
+        if not guest_phone_number.isdigit() or len(guest_phone_number) != 10:
+            print("Invalid phone number. Contact must be 10 digits long.")
+        else:
+            break
 
-def load_guest_data():
-    if not os.path.exists(Guest.file_path):
-        return
-    else:
-        with open(Guest.file_path, 'r') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                guest = Guest(
-                    row["Guest ID"],
-                    row["Full Name"],
-                    row["Phone Number"],
-                    row["ID Number"],
-                    row["Date of Birth"],
-                    save = False
-                )
-            #Guest.guest_registry.append(guest) #Appends all guests from csv to memory
-    return
+    print("___________________________________")
+
+    # Date of birth input
+    while True:
+        date_of_birth = input("Please enter the Date of Birth (YYYY-MM-DD): ")
+        try:
+            datetime.strptime(date_of_birth, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD.")
+
+    guest = guest_class.Guest(
+        guest_id,
+        full_name,
+        guest_phone_number,
+        date_of_birth
+    )
+
+    print("___________________________________________________________")
+    print("Guest has Successfully been added, please verify guest details below:\n")
+
+    guest_data = {
+        "Guest ID": guest_id,
+        "Full Name": full_name,
+        "Phone Number": guest_phone_number,
+        "Date of Birth": date_of_birth,
+    }
+
+    print(tabulate([guest_data], headers="keys", tablefmt="fancy_grid"))
+
+
+#create_new_guest()

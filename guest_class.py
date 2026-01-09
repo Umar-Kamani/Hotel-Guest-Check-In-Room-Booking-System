@@ -7,11 +7,10 @@ class Guest:
     file_name = "guests.csv"
     file_path = f"{dir_name}/{file_name}"
 
-    def __init__(self, guest_id, full_name, phone_number, id_number, date_of_birth, save=True):
+    def __init__(self, guest_id, full_name, phone_number, date_of_birth, save=True):
         self.guest_id = guest_id
         self.full_name = full_name
         self.phone_number = phone_number
-        self.id_number = id_number
         self.date_of_birth = date_of_birth
         Guest.guest_registry.append(self)
         if save:
@@ -27,14 +26,12 @@ class Guest:
                     "Guest ID",
                     "Full Name",
                     "Phone Number",
-                    "ID Number",
                     "Date of Birth"
                 ])
             writer.writerow([
                 self.guest_id,
                 self.full_name,
                 self.phone_number,
-                self.id_number,
                 self.date_of_birth
             ])
 
@@ -48,7 +45,6 @@ class Guest:
                 "Guest ID",
                 "Full Name",
                 "Phone Number",
-                "ID Number",
                 "Date of Birth"
             ])
 
@@ -57,7 +53,6 @@ class Guest:
                     guest.guest_id,
                     guest.full_name,
                     guest.phone_number,
-                    guest.id_number,
                     guest.date_of_birth
                 ])
 
@@ -72,9 +67,6 @@ def load_guest_data():
                     row["Guest ID"],
                     row["Full Name"],
                     row["Phone Number"],
-                    row["ID Number"],
                     row["Date of Birth"],
                     save = False
                 )
-            #Guest.guest_registry.append(guest) #Appends all guests from csv to memory
-    return
