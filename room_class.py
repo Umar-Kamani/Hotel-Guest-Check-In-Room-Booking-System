@@ -16,6 +16,8 @@ class Room:
         self.room_condition = room_condition
         self.room_access_pin = room_access_pin
         self.room_capacity = room_capacity
+        self.start_date = None
+        self.end_date = None
         Room.room_registry.append(self) #Automatically appends any room objects to the room_registry list
         if save: #This statement prevents the program from saving to the rooms.csv file twice
             self.save_to_csv()
@@ -33,7 +35,9 @@ class Room:
                     "Room Status",
                     "Room Condition",
                     "Room Access Pin",
-                    "Room Rate"
+                    "Room Rate",
+                    "Start Date",
+                    "End Date"
                 ])
             writer.writerow([
                 self.room_number,
@@ -42,7 +46,9 @@ class Room:
                 self.room_status,
                 self.room_condition,
                 self.room_access_pin,
-                self.room_rate
+                self.room_rate,
+                self.start_date,
+                self.end_date
             ])
 
     @classmethod #enables us to import class parameters and use them into this function
@@ -58,7 +64,9 @@ class Room:
                 "Room Status",
                 "Room Condition",
                 "Room Access Pin",
-                "Room Rate"
+                "Room Rate",
+                "Start Date",
+                "End Date"
             ])
 
             for room in cls.room_registry:
@@ -69,7 +77,9 @@ class Room:
                     room.room_status,
                     room.room_condition,
                     room.room_access_pin,
-                    room.room_rate
+                    room.room_rate,
+                    room.start_date,
+                    room.end_date
                 ])
 
 def load_room_data():
@@ -82,11 +92,11 @@ def load_room_data():
                 room = Room(
                     int(row["Room Number"]),
                     row["Room Type"],
-                    row["Room Capacity"],
+                    int(row["Room Capacity"]),
                     row["Room Status"],
                     row["Room Condition"],
-                    row["Room Access Pin"],
-                    row["Room Rate"],
+                    int(row["Room Access Pin"]),
+                    float(row["Room Rate"]),
                     save = False
                 )
     return
