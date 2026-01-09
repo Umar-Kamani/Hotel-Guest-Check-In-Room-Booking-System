@@ -64,7 +64,7 @@ def load_guest_data():
             reader = csv.DictReader(csvfile)
             for row in reader:
                 guest = Guest(
-                    row["Guest ID"],
+                    int(row["Guest ID"]),
                     row["Full Name"],
                     row["Phone Number"],
                     row["Date of Birth"],
