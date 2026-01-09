@@ -77,7 +77,7 @@ def load_booking_data():
                 booking = Booking(
                     row["Booking ID"],
                     row["Guest ID"],
-                    row["Room Number"],
+                    int(row["Room Number"]),
                     row["Status"],
                     row["Start Date"],
                     row["End Date"],
