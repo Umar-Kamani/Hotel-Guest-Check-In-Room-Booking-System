@@ -255,18 +255,13 @@ def edit_room_status(room_num_modify): #function to modify room status
     while True:
         print("""Room Status:
                       1. Empty
-                      2. Booked
-                      3. Occupied""")
+                      2. Occupied""")
         new_room_status = input("Please enter the room status: ")
         if new_room_status == '1':
             new_room_status = "Empty"
             print(f"Room Status '{new_room_status}' selected.")
             break
         elif new_room_status == '2':
-            new_room_status = "Booked"
-            print(f"Room Status '{new_room_status}' selected.")
-            break
-        elif new_room_status == '3':
             new_room_status = "Occupied"
             print(f"Room Status '{new_room_status}' selected.")
             break
