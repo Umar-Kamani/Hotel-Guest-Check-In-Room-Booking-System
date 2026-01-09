@@ -13,11 +13,13 @@ def create_new_guest():
 
     # Full name input
     while True:
-        full_name = input("Please enter the guest's full name: ")
+        first_name = input("Please enter the guest's first name: ").capitalize()
+        last_name = input("Please enter the guest's last name: ").capitalize()
+        full_name = first_name+" "+last_name
         if not full_name.strip():
-            print("Full name cannot be empty. Please try again.")
+            print("Guest name cannot be empty. Please try again.")
         elif any(char.isdigit() for char in full_name):
-            print("Full name cannot contain numbers. Please enter only letters.")
+            print("Guest name cannot contain numbers. Please enter only letters.")
         else:
             break
 
@@ -26,8 +28,8 @@ def create_new_guest():
     # Phone number input
     while True:
         guest_phone_number = input("Please enter the guest's phone number: ")
-        if not guest_phone_number.isdigit() or len(guest_phone_number) != 10:
-            print("Invalid phone number. Contact must be 10 digits long.")
+        if not guest_phone_number.isdigit():
+            print("Invalid phone number. Please try again.")
         else:
             break
 
@@ -62,4 +64,4 @@ def create_new_guest():
     print(tabulate([guest_data], headers="keys", tablefmt="fancy_grid"))
 
 
-#create_new_guest()
+create_new_guest()
