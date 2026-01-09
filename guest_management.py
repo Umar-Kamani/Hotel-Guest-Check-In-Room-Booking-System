@@ -14,13 +14,17 @@ def create_new_guest():
     # Full name input
     while True:
         first_name = input("Please enter the guest's first name: ").capitalize()
+        if not first_name.strip():
+            print("Guest first name cannot be empty. Please try again.")
+        if not first_name.isalpha():
+            print("Guest first name must contain only letters. Please try again.")
         last_name = input("Please enter the guest's last name: ").capitalize()
-        full_name = first_name+" "+last_name
-        if not full_name.strip():
-            print("Guest name cannot be empty. Please try again.")
-        elif any(char.isdigit() for char in full_name):
-            print("Guest name cannot contain numbers. Please enter only letters.")
+        if not last_name.strip():
+            print("Guest first name cannot be empty. Please try again.")
+        if not last_name.isalpha():
+            print("Guest first name must contain only letters. Please try again.")
         else:
+            full_name = first_name + " " + last_name
             break
 
     print("___________________________________")
@@ -62,6 +66,3 @@ def create_new_guest():
     }
 
     print(tabulate([guest_data], headers="keys", tablefmt="fancy_grid"))
-
-
-create_new_guest()
