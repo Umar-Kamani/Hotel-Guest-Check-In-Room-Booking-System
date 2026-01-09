@@ -66,3 +66,31 @@ def create_new_guest():
     }
 
     print(tabulate([guest_data], headers="keys", tablefmt="fancy_grid"))
+
+
+def modify_guest():
+    print("___________________________________")
+    print("Welcome to the Guest Modification Menu")
+    print("___________________________________")
+    while True:
+        guest_id_modify = input("Please enter the guest ID of the guest you want to amend: ")
+        try:
+            guest_id_modify = int(guest_id_modify)
+            if any(guest.guest_id == guest_id_modify for guest in guest_class.Guest.guest_registry):
+                break
+            else:
+                print("Guest doesn't exist. Please enter a valid guest ID.")
+        except ValueError:
+            print("Invalid guest ID. Please try again.")
+
+    old_guest_filter = [k for k in guest_class.Guest.guest_registry if k.guest_id == guest_id_modify]
+    old_guest_list = []
+
+    for k in old_guest_filter:
+        if k.guest_id == guest_id_modify:
+            old_guest_list.append({
+                "Guest ID": k.guest_id,
+                "Full Name": k.full_name,
+                "Phone Number": k.phone_number,
+                "ID Number": k.id_number,
+
