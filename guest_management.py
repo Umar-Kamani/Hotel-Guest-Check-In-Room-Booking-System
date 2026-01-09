@@ -13,18 +13,12 @@ def create_new_guest():
 
     # Full name input
     while True:
-        first_name = input("Please enter the guest's first name: ").capitalize()
-        if not first_name.strip():
-            print("Guest first name cannot be empty. Please try again.")
-        if not first_name.isalpha():
-            print("Guest first name must contain only letters. Please try again.")
-        last_name = input("Please enter the guest's last name: ").capitalize()
-        if not last_name.strip():
-            print("Guest first name cannot be empty. Please try again.")
-        if not last_name.isalpha():
-            print("Guest first name must contain only letters. Please try again.")
+        full_name = input("Please enter the guest's full name: ")
+        if not full_name.strip():
+            print("Full name cannot be empty. Please try again.")
+        elif any(char.isdigit() for char in full_name):
+            print("Full name cannot contain numbers. Please enter only letters.")
         else:
-            full_name = first_name + " " + last_name
             break
 
     print("___________________________________")
@@ -32,8 +26,8 @@ def create_new_guest():
     # Phone number input
     while True:
         guest_phone_number = input("Please enter the guest's phone number: ")
-        if not guest_phone_number.isdigit():
-            print("Invalid phone number. Please try again.")
+        if not guest_phone_number.isdigit() or len(guest_phone_number) != 10:
+            print("Invalid phone number. Contact must be 10 digits long.")
         else:
             break
 
@@ -68,29 +62,7 @@ def create_new_guest():
     print(tabulate([guest_data], headers="keys", tablefmt="fancy_grid"))
 
 
-def modify_guest():
-    print("___________________________________")
-    print("Welcome to the Guest Modification Menu")
-    print("___________________________________")
-    while True:
-        guest_id_modify = input("Please enter the guest ID of the guest you want to amend: ")
-        try:
-            guest_id_modify = int(guest_id_modify)
-            if any(guest.guest_id == guest_id_modify for guest in guest_class.Guest.guest_registry):
-                break
-            else:
-                print("Guest doesn't exist. Please enter a valid guest ID.")
-        except ValueError:
-            print("Invalid guest ID. Please try again.")
+create_new_guest()
 
-    old_guest_filter = [k for k in guest_class.Guest.guest_registry if k.guest_id == guest_id_modify]
-    old_guest_list = []
 
-    for k in old_guest_filter:
-        if k.guest_id == guest_id_modify:
-            old_guest_list.append({
-                "Guest ID": k.guest_id,
-                "Full Name": k.full_name,
-                "Phone Number": k.phone_number,
-                "ID Number": k.id_number,
-
+hjdcdhcdcjkdcvhjc
