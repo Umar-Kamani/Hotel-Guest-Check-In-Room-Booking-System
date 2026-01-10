@@ -85,9 +85,9 @@ def modify_guest():
     print("Welcome to the Guest Modification Menu")
     print("___________________________________")
     while True:
-        guest_id_modify = input("Please enter the guest ID of the guest you want to amend: ")
+        guest_passport_number_modify = input("Please enter the guest ID of the guest you want to amend: ")
         try:
-            guest_id_modify = int(guest_id_modify)
+            guest_id_modify = int(guest_passport_number_modify)
             if any(guest.guest_id == guest_id_modify for guest in guest_class.Guest.guest_registry):
                 break
             else:
@@ -102,9 +102,10 @@ def modify_guest():
         if k.guest_id == guest_id_modify:
             old_guest_list.append({
                 "Guest ID": k.guest_id,
+                "Guest Passport Number": k.guest_passport_number,
                 "Full Name": k.full_name,
                 "Phone Number": k.phone_number,
-                "ID Number": k.id_number,
+                "ID Number": k.date_of_birth,
             })
 
             print("\nPlease verify guest details below:")
@@ -123,14 +124,15 @@ def modify_guest():
                 else:
                     break
             # Menu system that calls the appropriate function
-            if details_modify == '1':
-                def edit_guest_id(guest_id_modify)
-            elif details_modify == '2':
-                edit_full_name(guest_id_modify)
+            if details_modify == '2':
+                edit_guest_passport_number(guest_id_modify)
             elif details_modify == '3':
-                edit_phone_number(guest_id_modify)
+                edit_guest_passport_number(guest_id_modify)
+            elif details_modify == '3':
+                edit_full_name(guest_id_modify)
             elif details_modify == '4':
-                edit_id_number(guest_id_modify)
+                edit_phone_number(guest_id_modify)
+
             elif details_modify == '5':
                 edit_date_of_birth(guest_id_modify)
             else:
@@ -203,22 +205,6 @@ def modify_guest():
                     print("Phone Number Updated")
             view_modified_guest(guest_id_modify)
 
-        def edit_id_number(guest_id_modify):
-            while True:
-                new_id_number = input("Please enter the new ID/Passport number: ")
-                if not new_id_number.strip():
-                    print("ID number cannot be empty. Please try again.")
-                    continue
-                else:
-                    break
-
-            for k in guest_class.Guest.guest_registry:
-                if k.guest_id == guest_id_modify:
-                    t.id_number = new_id_number
-                    guest_class.Guest.save_after_modification()
-                    print("ID Number Updated")
-            view_modified_guest(guest_id_modify)
-
         def edit_date_of_birth(guest_id_modify):
             while True:
                 new_date_of_birth = input("Please enter the new Date of Birth (YYYY-MM-DD): ")
@@ -237,26 +223,27 @@ def modify_guest():
 
         def view_modified_guest(modified_guest_id):
             view_guest = []
-            for g in guest_class.Guest.guest_registry:
-                if g.guest_id == modified_guest_id:
+            for k in guest_class.Guest.guest_registry:
+                if k.guest_id == modified_guest_id:
                     view_guest.append({
-                        "Guest ID": g.guest_id,
-                        "Full Name": g.full_name,
-                        "Phone Number": g.phone_number,
-                        "ID Number": g.id_number,
-                        "Date of Birth": g.date_of_birth,
+                        "Guest ID": k.guest_id,
+                        "Full Name": k.full_name,
+                        "Phone Number": k.phone_number,
+                        "ID Number": k.id_number,
+                        "Date of Birth": k.date_of_birth,
                     })
             print(tabulate(view_guest, headers="keys", tablefmt="fancy_grid"))
 
         def view_all_guests():
             all_guests = []
-            for g in guest_class.Guest.guest_registry:
+            for guest in guest_class.Guest.guest_registry:
                 all_guests.append({
-                    "Guest ID": g.guest_id,
-                    "Full Name": g.full_name,
-                    "Phone Number": g.phone_number,
-                    "ID Number": g.id_number,
-                    "Date of Birth": g.date_of_birth,
+                    "Guest ID": guest.guest_id,
+                    "Guest Passport Number": guest.guest_passport_number,
+                    "Full Name": guest.full_name,
+                    "Phone Number": guest.phone_number,
+                    "ID Number": guest.id_number,
+                    "Date of Birth": guest.date_of_birth,
                 })
             print(tabulate(all_guests, headers="keys", tablefmt="fancy_grid"))
 
@@ -265,7 +252,7 @@ def modify_guest():
                 view_guest_id = input("Please enter the guest ID of the guest you want to view: ")
                 try:
                     view_guest_id = int(view_guest_id)
-                    if any(guest.guest_id == view_guest_id for guest in guest.Guest.guest_registry):
+                    if any(guest.guest_id == view_guest_id for guest in guest_class.Guest.guest_registry):
                         break
                     else:
                         print("Guest doesn't exist. Please enter a valid guest ID.")
@@ -273,14 +260,14 @@ def modify_guest():
                     print("Invalid guest ID. Please try again.")
             specific_guest_list = []
 
-            for g in guest_class.Guest.guest_registry:
-                if g.guest_id == view_guest_id:
+            for guest in guest_class.Guest.guest_registry:
+                if guest.guest_id == view_guest_id:
                     specific_guest_list.append({
-                        "Guest ID": g.guest_id,
-                        "Full Name": g.full_name,
-                        "Phone Number": g.phone_number,
-                        "ID Number": g.id_number,
-                        "Date of Birth": g.date_of_birth,
+                        "Guest ID": guest.guest_id,
+                        "Full Name": guest.full_name,
+                        "Phone Number": guest.phone_number,
+                        "ID Number": guest.id_number,
+                        "Date of Birth": guest.date_of_birth,
                     })
             print(f"Please find all details about guest {view_guest_id} below.")
             print(tabulate(specific_guest_list, headers="keys", tablefmt="fancy_grid"))
@@ -288,4 +275,4 @@ def modify_guest():
         if __name__ == "__main__":
             create_new_guest()
 
-        create_new_guest()
+
