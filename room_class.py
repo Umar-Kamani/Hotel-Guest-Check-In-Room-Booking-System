@@ -1,5 +1,6 @@
 import csv
 import os
+from datetime import datetime
 
 class Room:
     room_registry=[] #memory to store room data
@@ -7,7 +8,7 @@ class Room:
     file_name = "rooms.csv" #name of csv file
     file_path = f"{dir_name}/{file_name}" #path of rooms.csv file
 
-    def __init__(self, room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate,
+    def __init__(self, room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate, start_date, end_date,
                  save=True):
         self.room_number = room_number
         self.room_type = room_type
@@ -16,8 +17,8 @@ class Room:
         self.room_condition = room_condition
         self.room_access_pin = room_access_pin
         self.room_capacity = room_capacity
-        self.start_date = None
-        self.end_date = None
+        self.start_date = start_date
+        self.end_date = end_date
         Room.room_registry.append(self) #Automatically appends any room objects to the room_registry list
         if save: #This statement prevents the program from saving to the rooms.csv file twice
             self.save_to_csv()
@@ -97,7 +98,8 @@ def load_room_data():
                     row["Room Condition"],
                     int(row["Room Access Pin"]),
                     float(row["Room Rate"]),
+                    row["Start Date"],
+                    row["End Date"],
                     save = False
                 )
     return
-

@@ -3,9 +3,9 @@ from tabulate import tabulate
 from datetime import datetime
 
 import guest_class
-import guest_management
 import room_class
 import room_management
+#import guest_management
 
 
 def create_booking():
@@ -70,8 +70,8 @@ def create_booking():
         and t.room_status == "Empty"
         and t.room_capacity >= booking_room_capacity
         and not any(
-            b.start_date < start_date_booking
-            and b.end_date > end_date_booking
+            datetime.strptime(b.start_date,"%Y-%m-%d") < start_date_booking
+            and datetime.strptime(b.end_date,"%Y-%m-%d") > end_date_booking
             for b in booking_class.Booking.booking_registry
         )]
 
@@ -89,22 +89,23 @@ def create_booking():
                 print(f"The following rooms with type '{booking_room_type}' and capacity '"
                       f"{booking_room_capacity} are available:")
                 print(tabulate(available_rooms, headers="keys", tablefmt="fancy_grid"))
-                while True:
-                    booking_room_number = input("Please enter the room number you wish to book: ")
-                    if booking_room_number == t.room_number:
-                        break
-                    else:
-                        print("Invalid room number. Please choose an available room.")
     else:
         print(f"No rooms with type '{booking_room_type}' and capacity '{booking_room_capacity} are available\n")
         room_management.view_available_rooms()
 
     while True:
         booking_room_number = input("Please enter the room number you wish to book: ")
-        if booking_room_number == t.room_number:
+        try:
+            booking_room_number = int(booking_room_number)
             break
-        elif booking_room_number != t.room_number:
+        except ValueError:
             print("Invalid room number. Please choose an available room.")
+
+        for available in available_room_filter:
+            if booking_room_number == available.room_number:
+                break
+            elif booking_room_number != available.room_number:
+                print("Invalid room number. Please choose an available room.")
     while True:
         guest_id_passport_number = input("Please enter the guest ID/Passport number: ")
         if not guest_id_passport_number.strip():
@@ -130,11 +131,11 @@ def create_booking():
             new_guest_list=[]
             for guest in guest_class.Guest.guest_registry:
                 if guest.id_passport == guest_id_passport_number:
-                    new_guest_list.append({guest}) # finish this
-
+                    new_guest_pass_id=guest.id_passport
             break
+
+    #booking = booking_class.Booking(booking_id, )
     print("Booking Complete")
-    booking = booking_class.Booking(booking_id,  )
     #update memory
 
 
