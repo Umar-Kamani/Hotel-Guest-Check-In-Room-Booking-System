@@ -5,11 +5,12 @@ from datetime import datetime
 import guest_class
 import room_class
 import room_management
-#import guest_management
+import guest_management
 
 
 def create_booking():
-    booking_id = len(booking_class.Booking.booking_registry) + 1
+
+
     print("___________________________________")
     print("Welcome to the Booking Wizard")
     print("___________________________________")
@@ -127,14 +128,14 @@ def create_booking():
         else:
             print("Guest is not yet registered, please proceed to register guest for booking\n")
             guest_management.create_new_guest()
-
-            new_guest_list=[]
-            for guest in guest_class.Guest.guest_registry:
-                if guest.id_passport == guest_id_passport_number:
-                    new_guest_pass_id=guest.id_passport
             break
 
-    #booking = booking_class.Booking(booking_id, )
+    new_guest_list=[]
+    for guest in guest_class.Guest.guest_registry:
+        if guest.id_passport == guest_id_passport_number:
+            new_guest_pass_id=guest.id_passport
+        booking=booking_class.Booking(guest.guest_id, booking_room_number, "Booked", start_date_booking, end_date_booking)
+
     print("Booking Complete")
     #update memory
 
