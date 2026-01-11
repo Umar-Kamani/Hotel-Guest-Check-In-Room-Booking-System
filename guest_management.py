@@ -25,7 +25,7 @@ def create_new_guest():
         if not first_name:
             print("First name cannot be empty.")
             continue
-        if not first_name.replace(" ", "").replace("-", "").isalpha():
+        if not first_name.isalpha():
             print("First name must contain only letters.")
             continue
         break
@@ -35,7 +35,7 @@ def create_new_guest():
         if not last_name:
             print("Last name cannot be empty.")
             continue
-        if not last_name.replace(" ", "").replace("-", "").isalpha():
+        if not last_name.isalpha():
             print("Last name must contain only letters.")
             continue
         break
@@ -44,8 +44,8 @@ def create_new_guest():
 
     while True:
         phone_number = input("Please enter the guest's phone number: ").strip()
-        if not phone_number.isdigit() or len(phone_number) < 8:
-            print("Invalid phone number. Must contain only digits (min 8).")
+        if not phone_number.isdigit() or len(phone_number) <= 10:
+            print("Invalid phone number. Must contain only digits (min 10).")
             continue
         break
 
