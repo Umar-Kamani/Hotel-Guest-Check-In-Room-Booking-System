@@ -269,12 +269,12 @@ def edit_room_status(room_num_modify): #function to modify room status
         else:
             print("Invalid room Status. Please try again.")
 
-        for t in room_class.Room.room_registry:
-            if t.room_number == room_num_modify:
-                t.room_status = new_room_status
-                room_class.Room.save_after_modification()
-                print("Room Status Updated")
-        view_modified_room(room_num_modify)
+    for t in room_class.Room.room_registry:
+        if t.room_number == room_num_modify:
+            t.room_status = new_room_status
+            room_class.Room.save_after_modification()
+            print("Room Status Updated")
+    view_modified_room(room_num_modify)
 
 def edit_room_condition(room_num_modify): #function to modify room condition
     while True:
@@ -430,7 +430,7 @@ def view_available_rooms(): #function that enables a user to view available room
 def view_occupied_rooms():
     occupied_rooms = []
     for room in room_class.Room.room_registry:
-        if room.room_status == "Occupied" or "Booked":
+        if room.room_status != "Empty":
             occupied_rooms.append({
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,

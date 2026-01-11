@@ -20,7 +20,7 @@ class Room:
         self.start_date = start_date
         self.end_date = end_date
         Room.room_registry.append(self) #Automatically appends any room objects to the room_registry list
-        if save: #This statement prevents the program from saving to the rooms.csv file twice
+        if save: #This statement prevents the program from saving to the rooms.csv file twice when loading rooms from the csv
             self.save_to_csv()
 
     def save_to_csv(self): #method to save data from memory into the rooms.csv file
