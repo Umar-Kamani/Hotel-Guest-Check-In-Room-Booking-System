@@ -186,14 +186,15 @@ def modify_room(): #function that enables a user to modify a room
 def edit_room_number(room_num_modify): #this function enables us to edit a room number
     while True:
         new_room_number = input("Please enter the new room number: ")
+        try:
+            new_room_number = int(new_room_number)  # makes room number into int
+            break
+        except ValueError:
+            print("Invalid room number. Please try again.")
         if any(room.room_number == new_room_number for room in room_class.Room.room_registry): # checks if the new room number is unique
             print("Room Number already exists. Please enter a new room number.")
         else:
-            try:
-                new_room_number = int(new_room_number) #makes room number into int
-                break
-            except ValueError:
-                print("Invalid room number. Please try again.")
+            break
 
     for t in room_class.Room.room_registry: #iteration to replace the old room number with the new one
         if t.room_number == room_num_modify:
