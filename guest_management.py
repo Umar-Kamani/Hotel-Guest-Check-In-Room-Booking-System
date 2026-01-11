@@ -9,15 +9,14 @@ def create_new_guest():
     print("Welcome to the Guest Creation Wizard")
     print("___________________________________")
 
-    guest_id = len(guest_class.Guest.guest_registry) + 1
-
     while True:
         guest_passport_number = input("Please enter the guest's Passport number: ").strip()
         if not guest_passport_number:
             print("Passport number cannot be empty. Please try again.")
             continue
         if any(g.guest_passport_number == guest_passport_number for g in guest_class.Guest.guest_registry):
-            print("This passport number already exists. Please enter a unique one.")
+            print("This guest already exists.")
+            #add redirection to main menu
             continue
         break
 
@@ -26,12 +25,18 @@ def create_new_guest():
         if not first_name or not first_name.isalpha():
             print("Guest first name must be non-empty and letters only. Try again.")
             continue
+        else:
+            break
+    while True:
         last_name = input("Please enter the guest's last name: ").strip().capitalize()
         if not last_name or not last_name.isalpha():
             print("Guest last name must be non-empty and letters only. Try again.")
             continue
-        full_name = first_name + " " + last_name
-        break
+        else:
+            break
+
+    full_name = first_name + " " + last_name
+
 
     while True:
         guest_phone_number = input("Please enter the guest's phone number: ").strip()
@@ -48,13 +53,7 @@ def create_new_guest():
         except ValueError:
             print("Invalid date format. Please use YYYY-MM-DD.")
 
-    guest_class.Guest(
-        guest_id,
-        guest_passport_number,
-        full_name,
-        guest_phone_number,
-        date_of_birth
-    )
+    guest = guest_class.Guest(guest_id, guest_passport_number, full_name, guest_phone_number, date_of_birth)
 
     guest_data = [{
         "Guest ID": guest_id,
