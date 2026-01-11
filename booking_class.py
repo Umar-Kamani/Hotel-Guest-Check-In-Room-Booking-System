@@ -36,7 +36,7 @@ class Booking:
                     "End Date",
                 ])
             writer.writerow([
-                self.booking_id,
+                self.id,
                 self.guest_id,
                 self.room_number,
                 self.status,
@@ -60,7 +60,7 @@ class Booking:
             ])
             for booking in cls.booking_registry:
                 writer.writerow([
-                    booking.booking_id,
+                    booking.id,
                     booking.guest_id,
                     booking.room_number,
                     booking.status,
@@ -85,4 +85,4 @@ def load_booking_data():
                     save=False
                 )
             booking_id = int(row["Booking ID"])
-            Booking.booking_id = max(booking_id, Booking.booking_id) #compares booking from line 6 and the one we loaded from the csv file into memory and re-assigns it to the largest number
+            Booking.booking_id = max(booking_id, Booking.booking_id) #compares booking from list and the one we loaded from the csv file into memory and re-assigns it to the largest number
