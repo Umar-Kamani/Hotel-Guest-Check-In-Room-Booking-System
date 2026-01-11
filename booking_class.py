@@ -7,9 +7,11 @@ class Booking:
     dir_name = "data"
     file_name = "bookings.csv"
     file_path = f"{dir_name}/{file_name}"
+    booking_id = 0
 
-    def __init__(self, booking_id, guest_id, room_number, status, start_date, end_date, save=True):
-        self.booking_id = booking_id
+    def __init__(self, guest_id, room_number, status, start_date, end_date, save=True):
+        Booking.booking_id += 1
+        self.id = Booking.booking_id
         self.guest_id = guest_id
         self.room_number = room_number
         self.status = status
@@ -75,7 +77,6 @@ def load_booking_data():
             reader = csv.DictReader(csvfile)
             for row in reader:
                 booking = Booking(
-                    row["Booking ID"],
                     row["Guest ID"],
                     int(row["Room Number"]),
                     row["Status"],
@@ -83,3 +84,5 @@ def load_booking_data():
                     row["End Date"],
                     save=False
                 )
+            booking_id = int(row["Booking ID"])
+            Booking.booking_id = max(booking_id, Booking.booking_id) #compares booking from line 6 and the one we loaded from the csv file into memory and re-assigns it to the largest number
