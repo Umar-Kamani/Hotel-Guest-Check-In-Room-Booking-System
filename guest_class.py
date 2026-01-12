@@ -100,5 +100,5 @@ def load_guest_data():
                 row["Passport Number"],
                 save=False
             )
-            guest_id = int(row["Booking ID"])
+            guest_id = int(row["Guest ID"])
             Guest.guest_id = max(guest_id, Guest.guest_id) #compares booking from line 6 and the one we loaded from the csv file into memory and re-assigns it to the largest number
