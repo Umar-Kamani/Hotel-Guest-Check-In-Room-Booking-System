@@ -16,6 +16,7 @@ def create_new_guest():
             print("Guest passport  number is already taken. Please try again.")
         else:
             break
+    print("___________________________________")
 
 
     while True:
@@ -31,8 +32,8 @@ def create_new_guest():
             print("Last name must contain only letters.")
             continue
         break
-
     guest_full_name = f"{first_name} {last_name}"
+    print("___________________________________")
 
     while True:
         guest_phone_number = input("Please enter the guest's phone number: ").strip()
@@ -40,6 +41,7 @@ def create_new_guest():
             print("Invalid phone number.")
             continue
         break
+    print("___________________________________")
 
     while True:
         guest_date_of_birth = input("Please enter the Date of Birth (YYYY-MM-DD): ").strip()
@@ -49,21 +51,18 @@ def create_new_guest():
         except ValueError:
             print("Invalid date format.")
 
-    guest = guest_class.Guest(
-        guest_id,
-        guest_passport_number,
-        guest_full_name,
-        guest_phone_number,
-        guest_date_of_birth
-    )
+    print("___________________________________")
 
-    guest_data = [{
+    guest = guest_class.Guest(guest_id, guest_passport_number, guest_full_name, guest_phone_number, guest_date_of_birth)
+    print("___________________________________________________________")
+    print("Guest Successfully Created, please verify guest details below:\n")
+    guest_data = {
         "Guest ID": guest.guest_id,
         "Passport Number": guest_passport_number,
         "Full Name": guest_full_name,
         "Phone Number": guest_phone_number,
         "Date of Birth": guest_date_of_birth
-    }]
+    }
 
     print(tabulate(guest_data, headers="keys", tablefmt="fancy_grid"))
 
