@@ -59,8 +59,8 @@ def create_new_guest():
 
     new_guest_data_filter=[n for n in guest_class.Guest.guest_registry]
     new_guest_data=[]
-    for n in guest_class.Guest.guest_registry:
-        if n.guest_passport_number == guest_passport_number:
+    for guest in new_guest_data_filter:
+        if guest.passport_number == guest_passport_number:
             new_guest_data.append({
                 "Guest ID": guest.id,
                 "Full Name": guest_full_name,
@@ -162,7 +162,7 @@ def edit_guest_full_name(guest_passport_number_modify):
         if g.passport_number == guest_passport_number_modify:
             g.full_name = new_full_name
             guest_class.Guest.save_after_modification()
-            print("Full Name has been updated Sucessfully.")
+            print("Full Name has been updated Successfully.")
             view_modified_guest(guest_passport_number_modify)
 
 def edit_guest_phone_number(guest_passport_number_modify):
@@ -178,7 +178,7 @@ def edit_guest_phone_number(guest_passport_number_modify):
         if g.passport_number == guest_passport_number_modify:
             g.phone_number = new_phone_number
             guest_class.Guest.save_after_modification()
-            print("Phone Number has been updated Sucessfully.")
+            print("Phone Number has been updated Successfully.")
             view_modified_guest(guest_passport_number_modify)
 
 
@@ -196,12 +196,12 @@ def edit_guest_date_of_birth(guest_passport_number_modify):
         if g.passport_number == guest_passport_number_modify:
             g.date_of_birth = new_date_of_birth
             guest_class.Guest.save_after_modification()
-            print("Date of Birth has been updated Sucessfully.")
+            print("Date of Birth has been updated Successfully.")
             view_modified_guest(guest_passport_number_modify)
 
 def view_modified_guest(guest_passport_number_modify):
-   modified_guest_list=[]
-   for g in guest_class.Guest.guest_registry:
+    modified_guest_list=[]
+    for g in guest_class.Guest.guest_registry:
        if g.passport_number == guest_passport_number_modify:
            modified_guest_list.append({
                "Guest ID": g.id,
@@ -210,5 +210,4 @@ def view_modified_guest(guest_passport_number_modify):
                "Date of Birth": g.date_of_birth,
                "Guest Passport Number": g.passport_number,
            })
-
     print(tabulate(modified_guest_list, headers="keys", tablefmt="fancy_grid"))
