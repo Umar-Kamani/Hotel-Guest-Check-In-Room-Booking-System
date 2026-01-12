@@ -12,8 +12,8 @@ def create_new_guest():
 
     while True:
         guest_passport_number=input("Please enter the guest Passport number: ") 
-        if any(guest.guest_passport_number == guest_passport_number for guest in guest_class.guest.guest_registry):
-            print("Guest passport  number is already taken. Please try again.")
+        if any(guest.guest_passport_number == guest_passport_number for guest in guest_class.Guest.guest_registry):
+            print("Guest passport number is already taken. Please try again.")
         else:
             break
 
@@ -21,14 +21,14 @@ def create_new_guest():
     while True:
         first_name = input("Please enter the guest's first name: ").strip().capitalize()
         if not first_name or not first_name.isalpha():
-            print("First name must contain only letters.")
+            print("Invalid First name, first name must contain only letters.")
             continue
         break
 
     while True:
         last_name = input("Please enter the guest's last name: ").strip().capitalize()
         if not last_name or not last_name.isalpha():
-            print("Last name must contain only letters.")
+            print("Invalid First name, last name must contain only letters.")
             continue
         break
 
@@ -36,7 +36,7 @@ def create_new_guest():
 
     while True:
         guest_phone_number = input("Please enter the guest's phone number: ").strip()
-        if not guest_phone_number.isdigit() or len(guest_phone_number) <= 10:
+        if not guest_phone_number.isdigit():
             print("Invalid phone number.")
             continue
         break
@@ -50,22 +50,25 @@ def create_new_guest():
             print("Invalid date format.")
 
     guest = guest_class.Guest(
-        guest_id,
-        guest_passport_number,
         guest_full_name,
         guest_phone_number,
-        guest_date_of_birth
+        guest_date_of_birth,
+        guest_passport_number
     )
 
-    guest_data = [{
-        "Guest ID": guest.guest_id,
-        "Passport Number": guest_passport_number,
-        "Full Name": guest_full_name,
-        "Phone Number": guest_phone_number,
-        "Date of Birth": guest_date_of_birth
-    }]
+    new_guest_data_filter=[n for n in guest_class.Guest.guest_registry]
+    new_guest_data=[]
+    for n in guest_class.Guest.guest_registry:
+        if n.guest_passport_number == guest_passport_number:
+            new_guest_data.append({
+                "Guest ID": guest.guest_id,
+                "Full Name": guest_full_name,
+                "Phone Number": guest_phone_number,
+                "Date of Birth": guest_date_of_birth,
+                "Passport Number": guest_passport_number
+            })
 
-    print(tabulate(guest_data, headers="keys", tablefmt="fancy_grid"))
+    print(tabulate(new_guest_data, headers="keys", tablefmt="fancy_grid"))
 
 
 def modify_guest():
