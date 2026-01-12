@@ -11,14 +11,12 @@ def create_new_guest():
     guest_id = guest_class.Guest.get_next_guest_id()
 
     while True:
-        guest_passport_number = input("Please enter the guest's passport number: ").strip()
-        if not guest_passport_number:
-            print("Passport number cannot be empty.")
-            continue
-        if guest_class.Guest.find_by_passport(guest_passport_number):
-            print("Passport number already exists.")
-            continue
-        break
+        guest_passport_number=input("Please enter the guest Passport number: ") 
+        if any(guest.guest_passport_number == guest_passport_number for guest in guest_class.guest.guest_registry):
+            print("Guest passport  number is already taken. Please try again.")
+        else:
+            break
+
 
     while True:
         first_name = input("Please enter the guest's first name: ").strip().capitalize()
