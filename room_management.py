@@ -159,7 +159,7 @@ def modify_room(): #function that enables a user to modify a room
     print("7. Room Rate ($)")
     print("8. Exit")
     while True:
-        details_modify = input("Please select room details to modify: ") #prompts the user to enter the details of the room they would like to modify
+        details_modify = input("Please select room detail to modify: ") #prompts the user to enter the details of the room they would like to modify
         if details_modify not in ('1', '2', '3', '4', '5', '6', '7', '8', 'exit'): #simple statement to validate input
             print("Invalid choice. Please try again.")
         else:
