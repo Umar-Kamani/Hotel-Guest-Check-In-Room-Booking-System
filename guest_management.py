@@ -73,8 +73,6 @@ def create_new_guest():
 
     print(tabulate(new_guest_data, headers="keys", tablefmt="fancy_grid"))
 
-
-
 def modify_room():
     print("___________________________________")
     print("Welcome to the Guest Modification Menu")
@@ -83,39 +81,52 @@ def modify_room():
     while True:
         guest_passport_number_modify = input("Please enter the passport number of the Guest you want to modify: ")
         try:
-            guest_passport_number_modify = int(guest_passport_number_modify)
             if any(guest.guest_passport_number == guest_passport_number_modify for guest in guest_class.Guest.guest_registry):
+                break
             else:
-                print("Guest doesn't exist. Please enter a valid Guest Passsport number.")
+                print("Guest doesn't exist. Please enter a valid Guest Passport number.")
         except ValueError:
             print("Invalid Guest Passport Number. Please try again.")
 
-     old_guest_filter=[k for k in guest_class.Guest.guest_registry if k.guest_passport_number == guest_passport_number_modify]
+    old_guest_filter=[k for k in guest_class.Guest.guest_registry if k.guest_passport_number == guest_passport_number_modify]
     old_guest_list=[]
     for k in old_guest_filter:
-        if k.geust_passport_number == guest_passport_number_modify:
-            old_guest_list.append({
-                "Passport Number": k.guest_passport_number,
+        old_guest_list.append({
         "Full Name": k.guest_full_name,
         "Phone Number": k.guest_phone_number,
-        "Date of Birth": k.guest_date_of_birth
+        "Date of Birth": k.guest_date_of_birth,
+        "Passport Number": k.guest_passport_number
             })
 
-    print("\nPlease verify room details below:")
+    print("\nPlease verify guest details below:")
+    print(tabulate(old_guest_list, headers="keys", tablefmt="fancy_grid"))
 
-    guest_data = [{
-        "Guest ID": guest.guest_id,
-        "Passport Number": guest.guest_passport_number,
-        "Full Name": guest.guest_full_name,
-        "Phone Number": guest.guest_phone_number,
-        "Date of Birth": guest.guest_date_of_birth
-    }]
-    print(tabulate(guest_data, headers="keys", tablefmt="fancy_grid"))
+    print("Guest Details")
+    print("1. Full Name")
+    print("2. Phone Number")
+    print("3. Date of Birth")
+    print("4. Passport/ID Number")
+    print("5. Exit")
 
-    print("1. Guest Passport Number")
-    print("2. Guest Full Name")
-    print("3. Guest Phone Number")
-    print("4. Guest Date of Birth")
+    while True:
+        guest_modify_choice = input("Please select guest detail to modify: ").lower() #prompts the user to choose the detail of the guest to modify
+        if guest_modify_choice not in ('1', '2', '3', '4', '5', 'exit'): #simple statement to validate input
+            print("Invalid choice. Please try again.")
+        else:
+            break
+
+    if guest_modify_choice == "1":
+
+    elif guest_modify_choice == "2":
+
+    elif guest_modify_choice == "3":
+
+    elif guest_modify_choice == "4":
+
+    elif guest_modify_choice == "5":
+
+    else:
+        print("Returning to Main Menu.")
 
     while True:
         choice = input("Choose an option (1-4): ").strip()
@@ -136,10 +147,22 @@ def modify_room():
             print("Invalid choice.")
 
 
-def edit_guest_passport_number(guest):
-    new_passport = input("Enter new passport number: ").strip()
-    guest.guest_passport_number = new_passport
-    guest_class.Guest.save_after_modification()
+def edit_guest_passport_number(guest_passport_number_modify):
+    while True:
+        new_passport = input("Please enter the new passport number: ").strip()
+        if not new_passport:
+            print("Invalid Passport Number. Please try again.")
+        if any(guest.guest_passport_number == new_passport for guest in guest_class.Guest.guest_registry):
+            print("Passport Number already exists. Please enter a different Passport Number.")
+        else:
+            break
+
+    for g in guest_class.Guest.guest_registry:
+        if g.guest_passport_number == new_passport:
+            g.guest_passport_number = new_passport
+            guest_class.Guest.save_after_modification()
+            print("Passport Number has been updated.")
+            view_modified_guest()
 
 
 def edit_guest_full_name(guest):
