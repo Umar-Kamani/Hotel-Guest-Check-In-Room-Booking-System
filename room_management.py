@@ -103,7 +103,7 @@ def create_new_room(): #function that enables a user to create a room
 
     print("___________________________________")
     room = room_class.Room(room_number, room_type, room_capacity, room_status, room_condition, room_access_pin,
-                           room_rate, None, None) #makes new room into an object
+                           room_rate) #makes new room into an object
     print("___________________________________________________________")
     print("Room Successfully Created, please verify room details below:\n")
     room_data = {
