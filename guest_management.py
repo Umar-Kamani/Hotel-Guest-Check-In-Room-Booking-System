@@ -67,9 +67,10 @@ def create_new_guest():
     print(tabulate(guest_data, headers="keys", tablefmt="fancy_grid"))
 
 
-def modify_guest():
+
+def modify_room(): #function that enables a user to modify a room
     print("___________________________________")
-    print("Guest Modification")
+    print("Welcome to the Guest Modification Menu")
     print("___________________________________")
 
     while True:
