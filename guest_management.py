@@ -74,11 +74,27 @@ def modify_room(): #function that enables a user to modify a room
     print("___________________________________")
 
     while True:
-        passport_number = input("Enter passport number: ").strip()
-        guest = guest_class.Guest.find_by_passport(passport_number)
-        if guest:
-            break
-        print("Guest not found.")
+        guest_passport_number_modify = input("Please enter the passport number of the Guest you want to modify: ")
+        try:
+            guest_passport_number_modify = int(guest_passport_number_modify)
+            if any(guest.guest_passport_number == guest_passport_number_modify for guest in guest_class.Guest.guest_registry):
+            else:
+                print("Guest doesn't exist. Please enter a valid Guest Passsport number.")
+        except ValueError:
+            print("Invalid Guest Passport Number. Please try again.")
+            
+     old_guest_filter=[k for k in guest_class.Guest.guest_registry if k.guest_passport_number == guest_passport_number_modify] 
+    old_guest_list=[]
+    for k in old_guest_filter:
+        if k.geust_passport_number == guest_passport_number_modify:
+            old_guest_list.append({
+                "Passport Number": k.guest_passport_number,
+        "Full Name": k.guest_full_name,
+        "Phone Number": k.guest_phone_number,
+        "Date of Birth": k.guest_date_of_birth
+            })
+
+    print("\nPlease verify room details below:")
 
     guest_data = [{
         "Guest ID": guest.guest_id,
