@@ -224,7 +224,3 @@ def view_all_guests():
         })
     print(tabulate(all_guest_list, headers="keys", tablefmt="fancy_grid"))
 
-guest_class.load_guest_data()
-view_all_guests()
-#create_new_guest()
-modify_guest()
