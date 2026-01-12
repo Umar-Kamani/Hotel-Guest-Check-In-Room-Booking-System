@@ -68,7 +68,7 @@ def create_new_guest():
 
 
 
-def modify_room(): #function that enables a user to modify a room
+def modify_room():
     print("___________________________________")
     print("Welcome to the Guest Modification Menu")
     print("___________________________________")
