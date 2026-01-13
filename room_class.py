@@ -8,11 +8,10 @@ class Room:
     file_name = "rooms.csv" #name of csv file
     file_path = f"{dir_name}/{file_name}" #path of rooms.csv file
 
-    def __init__(self, room_number, room_type, room_capacity, room_status, room_condition, room_access_pin, room_rate,
+    def __init__(self, room_number, room_type, room_capacity, room_condition, room_access_pin, room_rate,
                  save=True):
         self.room_number = room_number
         self.room_type = room_type
-        self.room_status = room_status
         self.room_rate = room_rate
         self.room_condition = room_condition
         self.room_access_pin = room_access_pin
@@ -31,7 +30,6 @@ class Room:
                     "Room Number",
                     "Room Type",
                     "Room Capacity",
-                    "Room Status",
                     "Room Condition",
                     "Room Access Pin",
                     "Room Rate"
@@ -40,7 +38,6 @@ class Room:
                 self.room_number,
                 self.room_type,
                 self.room_capacity,
-                self.room_status,
                 self.room_condition,
                 self.room_access_pin,
                 self.room_rate
@@ -56,7 +53,6 @@ class Room:
                 "Room Number",
                 "Room Type",
                 "Room Capacity",
-                "Room Status",
                 "Room Condition",
                 "Room Access Pin",
                 "Room Rate"
@@ -67,7 +63,6 @@ class Room:
                     room.room_number,
                     room.room_type,
                     room.room_capacity,
-                    room.room_status,
                     room.room_condition,
                     room.room_access_pin,
                     room.room_rate
@@ -84,7 +79,6 @@ def load_room_data():
                     int(row["Room Number"]),
                     row["Room Type"],
                     int(row["Room Capacity"]),
-                    row["Room Status"],
                     row["Room Condition"],
                     int(row["Room Access Pin"]),
                     float(row["Room Rate"]),

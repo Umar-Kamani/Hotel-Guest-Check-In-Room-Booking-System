@@ -5,7 +5,6 @@ def create_new_room(): #function that enables a user to create a room
     print("___________________________________")
     print("Welcome to the Room Creation Wizard")
     print("___________________________________")
-    room_status = "Empty"
     #Room number input
     while True:
         room_number=input("Please enter the room number: ") #Asks the user for the room number
@@ -102,7 +101,7 @@ def create_new_room(): #function that enables a user to create a room
             print("Invalid room rate. Please try again.")
 
     print("___________________________________")
-    room = room_class.Room(room_number, room_type, room_capacity, room_status, room_condition, room_access_pin,
+    room = room_class.Room(room_number, room_type, room_capacity, room_condition, room_access_pin,
                            room_rate) #makes new room into an object
     print("___________________________________________________________")
     print("Room Successfully Created, please verify room details below:\n")
@@ -110,7 +109,6 @@ def create_new_room(): #function that enables a user to create a room
         "Room Number": room_number,
         "Room Type": room_type,
         "Room Capacity": room_capacity,
-        "Room Status": room_status,
         "Room Condition": room_condition,
         "Room Access Pin": room_access_pin,
         "Room Rate ($)": room_rate,
@@ -141,7 +139,6 @@ def modify_room(): #function that enables a user to modify a room
                 "Room Number": t.room_number,
                 "Room Type": t.room_type,
                 "Room Capacity": t.room_capacity,
-                "Room Status": t.room_status,
                 "Room Condition": t.room_condition,
                 "Room Access Pin": t.room_access_pin,
                 "Room Rate ($)": t.room_rate,
@@ -153,14 +150,13 @@ def modify_room(): #function that enables a user to modify a room
     print("1. Room Number")
     print("2. Room Type")
     print("3. Room Capacity")
-    print("4. Room Status")
-    print("5. Room Condition")
-    print("6. Room Access Pin")
-    print("7. Room Rate ($)")
-    print("8. Exit")
+    print("4. Room Condition")
+    print("5. Room Access Pin")
+    print("6. Room Rate ($)")
+    print("7. Exit")
     while True:
-        details_modify = input("Please select room detail to modify: ") #prompts the user to enter the details of the room they would like to modify
-        if details_modify not in ('1', '2', '3', '4', '5', '6', '7', '8', 'exit'): #simple statement to validate input
+        details_modify = input("Please select room detail to modify: ").lower() #prompts the user to enter the details of the room they would like to modify
+        if details_modify not in ('1', '2', '3', '4', '5', '6', '7', 'exit'): #simple statement to validate input
             print("Invalid choice. Please try again.")
         else:
             break
@@ -172,12 +168,10 @@ def modify_room(): #function that enables a user to modify a room
     elif details_modify == '3':
         edit_room_capacity(room_num_modify)
     elif details_modify == '4':
-        edit_room_status(room_num_modify)
-    elif details_modify == '5':
         edit_room_condition(room_num_modify)
-    elif details_modify == '6':
+    elif details_modify == '5':
         edit_room_access_pin(room_num_modify)
-    elif details_modify == '7':
+    elif details_modify == '6':
         edit_room_rate(room_num_modify)
     else:
         return
@@ -250,30 +244,6 @@ def edit_room_capacity(room_num_modify):
             t.room_capacity = new_room_capacity
             room_class.Room.save_after_modification()
             print("Room Type Updated")
-    view_modified_room(room_num_modify)
-
-def edit_room_status(room_num_modify): #function to modify room status
-    while True:
-        print("""Room Status:
-                      1. Empty
-                      2. Occupied""")
-        new_room_status = input("Please enter the room status: ")
-        if new_room_status == '1':
-            new_room_status = "Empty"
-            print(f"Room Status '{new_room_status}' selected.")
-            break
-        elif new_room_status == '2':
-            new_room_status = "Occupied"
-            print(f"Room Status '{new_room_status}' selected.")
-            break
-        else:
-            print("Invalid room Status. Please try again.")
-
-    for t in room_class.Room.room_registry:
-        if t.room_number == room_num_modify:
-            t.room_status = new_room_status
-            room_class.Room.save_after_modification()
-            print("Room Status Updated")
     view_modified_room(room_num_modify)
 
 def edit_room_condition(room_num_modify): #function to modify room condition
@@ -363,7 +333,6 @@ def view_modified_room(modified_room_number): #function that enables a user to v
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,
                 "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
                 "Room Condition": room.room_condition,
                 "Room Access Pin": room.room_access_pin,
                 "Room Rate ($)": room.room_rate,
@@ -377,7 +346,6 @@ def view_all_rooms(): #function to view all rooms
             "Room Number": room.room_number,
             "Room Type": room.room_type,
             "Room Capacity": room.room_capacity,
-            "Room Status": room.room_status,
             "Room Condition": room.room_condition,
             "Room Access Pin": room.room_access_pin,
             "Room Rate ($)": room.room_rate,
@@ -403,7 +371,6 @@ def view_specific_room(): #function that enables you to view the details of a si
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,
                 "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
                 "Room Condition": room.room_condition,
                 "Room Access Pin": room.room_access_pin,
                 "Room Rate ($)": room.room_rate,
@@ -419,7 +386,6 @@ def view_available_rooms(): #function that enables a user to view available room
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,
                 "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
                 "Room Condition": room.room_condition,
                 "Room Access Pin": room.room_access_pin,
                 "Room Rate ($)": room.room_rate,
@@ -435,7 +401,6 @@ def view_occupied_rooms():
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,
                 "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
                 "Room Condition": room.room_condition,
                 "Room Access Pin": room.room_access_pin,
                 "Room Rate ($)": room.room_rate,
