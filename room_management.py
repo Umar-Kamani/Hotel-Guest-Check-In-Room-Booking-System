@@ -1,5 +1,7 @@
 import room_class
+import booking_class
 from tabulate import tabulate
+from datetime import datetime
 
 def create_new_room(): #function that enables a user to create a room
     print("___________________________________")
@@ -378,20 +380,28 @@ def view_specific_room(): #function that enables you to view the details of a si
     print(f"Please find all details about room {view_room_number} below.")
     print(tabulate(specific_room_list, headers="keys", tablefmt="fancy_grid"))
 
-def view_available_rooms(): #function that enables a user to view available rooms
-    available_rooms = []
-    for room in room_class.Room.room_registry:
-        if room.room_status == "Empty":
+def view_available_rooms():
+    available_room_filter = [
+        t for t in room_class.Room.room_registry
+        if not any(
+            datetime.strptime(b.start_date, "%Y-%m-%d") < datetime.now()
+            and datetime.strptime(b.end_date, "%Y-%m-%d") > datetime.now
+            for b in booking_class.Booking.booking_registry
+        )]
+
+    if available_room_filter:
+        available_rooms = []
+        for t in available_room_filter:
             available_rooms.append({
-                "Room Number": room.room_number,
-                "Room Type": room.room_type,
-                "Room Capacity": room.room_capacity,
-                "Room Condition": room.room_condition,
-                "Room Access Pin": room.room_access_pin,
-                "Room Rate ($)": room.room_rate,
+                "Room Number": t.room_number,
+                "Room Type": t.room_type,
+                "Room Capacity": t.room_capacity,
+                "Room Condition": t.room_condition,
+                "Room Rate": f"${t.room_rate}",
             })
-    print(f"Please find all available rooms below.")
-    print(tabulate(available_rooms, headers="keys", tablefmt="fancy_grid"))
+            print(f"The following rooms are available")
+            print(tabulate(available_rooms, headers="keys", tablefmt="fancy_grid"))
+    #function that enables a user to view available rooms
 
 def view_occupied_rooms():
     occupied_rooms = []
