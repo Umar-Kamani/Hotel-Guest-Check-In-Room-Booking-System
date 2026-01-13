@@ -9,10 +9,8 @@ class Booking:
     dir_name = "data"
     file_name = "bookings.csv"
     file_path = f"{dir_name}/{file_name}"
-    #booking_id = 0
 
-    def __init__(self, guest_id, guest_name, room_number, status, start_date, end_date, save=True):
-        #Booking.booking_id += 1
+    def __init__(self, guest_id, guest_name, room_number, status, start_date, end_date, check_in, check_out, save=True):
         self.id = random_booking_id()
         self.guest_id = guest_id
         self.guest_name = guest_name
@@ -20,6 +18,8 @@ class Booking:
         self.status = status
         self.start_date = start_date
         self.end_date = end_date
+        self.check_in = check_in
+        self.check_out = check_out
         Booking.booking_registry.append(self)
         if save:
             self.save_to_csv()
@@ -38,6 +38,8 @@ class Booking:
                     "Status",
                     "Start Date",
                     "End Date",
+                    "Check In Timestamp",
+                    "Check Out Timestamp",
                 ])
             writer.writerow([
                 self.id,
@@ -47,6 +49,8 @@ class Booking:
                 self.status,
                 self.start_date,
                 self.end_date,
+                self.check_in,
+                self.check_out
             ])
 
     @classmethod
@@ -63,6 +67,8 @@ class Booking:
                 "Status",
                 "Start Date",
                 "End Date",
+                "Check In Timestamp",
+                "Check Out Timestamp",
             ])
             for booking in cls.booking_registry:
                 writer.writerow([
@@ -73,6 +79,8 @@ class Booking:
                     booking.status,
                     booking.start_date,
                     booking.end_date,
+                    booking.check_in,
+                    booking.check_out
                 ])
 
 
@@ -90,13 +98,12 @@ def load_booking_data():
                     row["Status"],
                     row["Start Date"],
                     row["End Date"],
+                    row["Check In Timestamp"],
+                    row["Check Out Timestamp"],
                     save=False
                 )
 
-            #booking_id = int(row["Booking ID"])
-            #Booking.booking_id = max(booking_id, Booking.booking_id) #compares booking from list and the one we loaded from the csv file into memory and re-assigns it to the largest number
-
-def random_booking_id():
+def random_booking_id(): #generates a random booking ID
     length = 6
     random_string = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
     return random_string

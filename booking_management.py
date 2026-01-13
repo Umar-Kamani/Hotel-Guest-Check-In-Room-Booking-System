@@ -47,27 +47,21 @@ def create_booking():
         start_date_booking = input("Please enter the start date of booking (YYYY-MM-DD): ")
         try:
             datetime.strptime(start_date_booking, "%Y-%m-%d")
+            break
         except ValueError:
             print("Invalid start date format. Please use YYYY-MM-DD.")
-            continue
-        if start_date_booking == datetime.now().strftime("%Y-%m-%d"):
-            continue
+    while True:
         end_date_booking = input("Please enter the end date of booking (YYYY-MM-DD): ")
         try:
             datetime.strptime(end_date_booking, "%Y-%m-%d")
+            break
         except ValueError:
             print("Invalid end date format. Please use YYYY-MM-DD.")
-            continue
-        if end_date_booking < start_date_booking:
-            print("End date cannot be earlier than start date. Please try again.")
-            continue
-        break
 
             #Check if room is available
     available_room_filter=[
         t for t in room_class.Room.room_registry
         if t.room_type == booking_room_type
-        and t.room_status != "Occupied"
         and t.room_capacity >= booking_room_capacity
         and not any(
             datetime.strptime(b.start_date,"%Y-%m-%d") < datetime.strptime(start_date_booking,"%Y-%m-%d")
@@ -82,7 +76,6 @@ def create_booking():
                     "Room Number": t.room_number,
                     "Room Type": t.room_type,
                     "Room Capacity": t.room_capacity,
-                    "Room Status": t.room_status,
                     "Room Condition": t.room_condition,
                     "Room Rate": f"${t.room_rate}",
                 })
@@ -128,7 +121,6 @@ def create_booking():
             guest_management.create_new_guest()
             break
 
-    new_guest_list=[]
     for guest in guest_class.Guest.guest_registry:
         if guest.passport_number == guest_id_passport_number:
             booking=booking_class.Booking(guest.guest_id, guest.full_name, booking_room_number, "Booked", start_date_booking, end_date_booking)
@@ -148,12 +140,6 @@ def create_booking():
             })
     print("Booking Complete, please find booking info below.")
     print(tabulate(new_booking, headers="keys", tablefmt="fancy_grid"))
-
-    #update the status of the booked room
-    for t in room_class.Room.room_registry:
-        if t.room_number == booking_room_number:
-            t.room_status = "Booked"
-            room_class.Room.save_after_modification()
 
 def delete_booking():
     while True:
@@ -205,7 +191,60 @@ def view_specific_booking():
                 "Booking End Date": t.end_date
             })
 
+def check_in_booking():
+    while True:
+        booking_id_check_in = input("Please enter the booking ID of the booking you want to Check-In: ")
+        if any(booking.id == booking_id_check_in for booking in booking_class.Booking.booking_registry):
+            break
+        else:
+            print("Booking doesn't exist. Please enter a valid booking ID.")
+        for t in booking_class.Booking.booking_registry:
+            if t.id == booking_id_check_in:
+                t.status = "Checked In"
+                t.checked_in = datetime.now()
+                check_in_filter=[t for t in booking_class.Booking.booking_registry if t.id == booking_id_check_in]
+                check_in=[]
+                for t in check_in_filter:
+                    check_in.append({
+                        "Booking ID": t.id,
+                        "Guest ID": t.guest_id,
+                        "Guest Name": t.guest_name,
+                        "Guest Room Number": t.room_number,
+                        "Booking Status": t.status,
+                        "Booking Start Date": t.start_date,
+                        "Booking End Date": t.end_date,
+                        "Checked In": t.checked_in
+                    })
+                print("Guest has been checked in, please find booking info below.")
+                print(tabulate(check_in, headers="keys", tablefmt="fancy_grid"))
 
+def check_out_booking():
+    while True:
+        booking_id_check_out = input("Please enter the booking ID of the booking you want to Check-Out: ")
+        if any(booking.id == booking_id_check_out for booking in booking_class.Booking.booking_registry):
+            break
+        else:
+            print("Booking doesn't exist. Please enter a valid booking ID.")
+        for t in booking_class.Booking.booking_registry:
+            if t.id == booking_id_check_out:
+                t.status = "Checked Out"
+                t.checked_out = datetime.now()
+                check_out_filter = [t for t in booking_class.Booking.booking_registry if t.id == booking_id_check_out]
+                check_out = []
+                for t in check_out_filter:
+                    check_out.append({
+                        "Booking ID": t.id,
+                        "Guest ID": t.guest_id,
+                        "Guest Name": t.guest_name,
+                        "Guest Room Number": t.room_number,
+                        "Booking Status": t.status,
+                        "Booking Start Date": t.start_date,
+                        "Booking End Date": t.end_date,
+                        "Checked In": t.checked_in,
+                        "Checked Out": t.checked_out
+                    })
+                print("Guest has been checked out successfully, please find booking info below.")
+                print(tabulate(check_out, headers="keys", tablefmt="fancy_grid"))
 
 room_class.load_room_data()
 guest_class.load_guest_data()
