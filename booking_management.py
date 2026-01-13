@@ -10,7 +10,6 @@ import guest_management
 
 def create_booking():
 
-
     print("___________________________________")
     print("Welcome to the Booking Wizard")
     print("___________________________________")
@@ -156,6 +155,55 @@ def create_booking():
             t.room_status = "Booked"
             room_class.Room.save_after_modification()
 
+def delete_booking():
+    while True:
+        booking_id_delete = input("Please enter the booking ID of the booking you want to delete: ")
+        if any(booking.id == booking_id_delete for booking in
+               booking_class.Booking.booking_registry):  # checks if booking ID exists in the database
+            break
+        else:
+            print("Booking doesn't exist. Please enter a valid Booking ID.")
+
+    for t in booking_class.Booking.booking_registry:
+        if t.id == booking_id_delete:
+            booking_class.Booking.booking_registry.remove(t)
+            booking_class.Booking.save_after_modification()
+            print("Booking has been deleted successfully")
+
+def view_all_bookings():
+    all_bookings = []
+    for t in booking_class.Booking.booking_registry:
+        all_bookings.append({
+            "Booking ID": t.id,
+            "Guest ID": t.guest_id,
+            "Guest Name": t.guest_name,
+            "Guest Room Number": t.room_number,
+            "Booking Status": t.status,
+            "Booking Start Date": t.start_date,
+            "Booking End Date": t.end_date
+        })
+    print("Please view all bookings below")
+    print(tabulate(all_bookings, headers="keys", tablefmt="fancy_grid"))
+
+def view_specific_booking():
+    specific_booking=[]
+    while True:
+        view_specific_booking = input("Please enter the booking ID of the booking you want to view: ")
+        if any(booking.id == view_specific_booking for booking in booking_class.Booking.booking_registry):
+            break
+        else:
+            print("Booking doesn't exist. Please enter a valid booking ID.")
+    for t in booking_class.Booking.booking_registry:
+        if t.id == view_specific_booking:
+            specific_booking.append({
+                "Booking ID": t.id,
+                "Guest ID": t.guest_id,
+                "Guest Name": t.guest_name,
+                "Guest Room Number": t.room_number,
+                "Booking Status": t.status,
+                "Booking Start Date": t.start_date,
+                "Booking End Date": t.end_date
+            })
 
 
 
