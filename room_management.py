@@ -471,6 +471,7 @@ def view_available_rooms():
                     "Room Condition": t.room_condition,
                     "Room Rate": f"${t.room_rate}",
                 })
+            print(tabulate(view_available_rooms_v2, headers="keys", tablefmt="fancy_grid"))
 
     #function that enables a user to view available rooms
 
