@@ -7,22 +7,21 @@ import room_management
 
 
 room_class.load_room_data()
-print("Room Data Loaded Successfully...")
+print("Room Data Loaded Successfully")
 print("---------------------------------")
 
 guest_class.load_guest_data()
-print("Guest Data Loaded Successfully...")
+print("Guest Data Loaded Successfully")
 print("---------------------------------")
 
 booking_class.load_booking_data()
-print("Booking Data Loaded Successfully...")
+print("Booking Data Loaded Successfully")
 print("---------------------------------")
 print("All Data has been successfully loaded!!!"
-      "System is Ready")
-print("---------------------------------")
-
+      "System is Ready\n\n\n")
 def main_menu():
-    print("Welcome to Room Booking System Main Menu")
+    print("Welcome to Hotel Management System")
+    print("----------------------------------")
     print("1. Check In Guest")
     print("2. Check Out Guest")
     print("3. Booking Management Menu")
@@ -61,6 +60,7 @@ def main_menu():
 
 def booking_management_menu():
     print("Welcome to Booking Management Menu")
+    print("----------------------------------")
     print("1. Create booking.")
     print("2. Cancel booking.")
     print("3. Check In Guest")
@@ -104,6 +104,7 @@ def booking_management_menu():
 
 def room_management_menu():
     print("Welcome to Room Management Menu")
+    print("-------------------------------")
     print("1. View all rooms.")
     print("2. View specific room.")
     print("3. View available rooms.")
@@ -152,6 +153,7 @@ def room_management_menu():
 
 def guest_management_menu():
     print("Welcome to Guest Management Menu")
+    print("--------------------------------")
     print("1. View all guests.")
     print("2. View specific guest.")
     print("3. Create new guest.")
@@ -188,3 +190,17 @@ def guest_management_menu():
         print("Thank you.")
         return main_menu()
 
+print(r"""
+ .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+| |  ____  ____  | || |     ____     | || |  _________   | || |  _________   | || |   _____      | || |     _____    | || |      __      | |
+| | |_   ||   _| | || |   .'    `.   | || | |  _   _  |  | || | |_   ___  |  | || |  |_   _|     | || |    |_   _|   | || |     /  \     | |
+| |   | |__| |   | || |  /  .--.  \  | || | |_/ | | \_|  | || |   | |_  \_|  | || |    | |       | || |      | |     | || |    / /\ \    | |
+| |   |  __  |   | || |  | |    | |  | || |     | |      | || |   |  _|  _   | || |    | |   _   | || |      | |     | || |   / ____ \   | |
+| |  _| |  | |_  | || |  \  `--'  /  | || |    _| |_     | || |  _| |___/ |  | || |   _| |__/ |  | || |     _| |_    | || | _/ /    \ \_ | |
+| | |____||____| | || |   `.____.'   | || |   |_____|    | || | |_________|  | || |  |________|  | || |    |_____|   | || ||____|  |____|| |
+| |              | || |              | || |              | || |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' 
+""")
+main_menu()
