@@ -437,9 +437,9 @@ def view_available_rooms():
         )]
 
     if view_available_room_filter:
-        view_available_rooms = []
+        view_available_rooms_list = []
         for t in view_available_room_filter:
-            view_available_rooms.append({
+            view_available_rooms_list.append({
                 "Room Number": t.room_number,
                 "Room Type": t.room_type,
                 "Room Capacity": t.room_capacity,
@@ -448,7 +448,7 @@ def view_available_rooms():
             })
             print(f"The following rooms with type '{type_room_availability}' and capacity '"
                   f"{capacity_room_availability} are available:")
-            print(tabulate(view_available_rooms, headers="keys", tablefmt="fancy_grid"))
+            print(tabulate(view_available_rooms_list, headers="keys", tablefmt="fancy_grid"))
     else:
         print(f"No rooms with type '{type_room_availability}' and capacity '{capacity_room_availability} are available\n")
         print("The following rooms are available")
@@ -476,15 +476,13 @@ def view_available_rooms():
 
 def view_occupied_rooms():
     occupied_rooms = []
-    for room in room_class.Room.room_registry:
-        if room.room_status != "Empty":
+    for booking in booking_class.Booking.booking_registry:
+        if any(booking.room_number == room.room_number for room in booking_class.Booking.booking_registry
+               and booking.status == "Checked-In"):
             occupied_rooms.append({
-                "Room Number": room.room_number,
-                "Room Type": room.room_type,
-                "Room Capacity": room.room_capacity,
-                "Room Condition": room.room_condition,
-                "Room Access Pin": room.room_access_pin,
-                "Room Rate ($)": room.room_rate,
+                "Room Number": booking.room_number,
+                "Status": booking.status,
+                "Check-In": booking.check_in
             })
     print(f"Please find all Occupied or Booked rooms below.")
     print(tabulate(occupied_rooms, headers="keys", tablefmt="fancy_grid"))
