@@ -64,27 +64,6 @@ class Guest:
                     guest.passport_number,
                 ])
 
-    @classmethod
-    def get_next_guest_id(cls):
-        if cls.guest_registry:
-            return max(guest.guest_id for guest in cls.guest_registry) + 1
-        return 1
- 
-    @classmethod
-    def find_by_passport(cls, passport_number):
-        for guest in cls.guest_registry:
-            if guest.passport_number == passport_number:
-                return guest
-        return None
- 
-    @classmethod
-    def delete_by_passport(cls, passport_number):
-        guest = cls.find_by_passport(passport_number)
-        if guest:
-            cls.guest_registry.remove(guest)
-            cls.save_after_modification()
-            return True
-        return False
  
 def load_guest_data():
     if not os.path.exists(Guest.file_path):

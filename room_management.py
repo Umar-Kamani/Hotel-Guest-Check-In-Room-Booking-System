@@ -1,11 +1,12 @@
 import room_class
+import booking_class
 from tabulate import tabulate
+from datetime import datetime
 
 def create_new_room(): #function that enables a user to create a room
     print("___________________________________")
     print("Welcome to the Room Creation Wizard")
     print("___________________________________")
-    room_status = "Empty"
     #Room number input
     while True:
         room_number=input("Please enter the room number: ") #Asks the user for the room number
@@ -102,15 +103,14 @@ def create_new_room(): #function that enables a user to create a room
             print("Invalid room rate. Please try again.")
 
     print("___________________________________")
-    room = room_class.Room(room_number, room_type, room_capacity, room_status, room_condition, room_access_pin,
-                           room_rate, None, None) #makes new room into an object
+    room = room_class.Room(room_number, room_type, room_capacity, room_condition, room_access_pin,
+                           room_rate) #makes new room into an object
     print("___________________________________________________________")
     print("Room Successfully Created, please verify room details below:\n")
     room_data = {
         "Room Number": room_number,
         "Room Type": room_type,
         "Room Capacity": room_capacity,
-        "Room Status": room_status,
         "Room Condition": room_condition,
         "Room Access Pin": room_access_pin,
         "Room Rate ($)": room_rate,
@@ -141,7 +141,6 @@ def modify_room(): #function that enables a user to modify a room
                 "Room Number": t.room_number,
                 "Room Type": t.room_type,
                 "Room Capacity": t.room_capacity,
-                "Room Status": t.room_status,
                 "Room Condition": t.room_condition,
                 "Room Access Pin": t.room_access_pin,
                 "Room Rate ($)": t.room_rate,
@@ -153,14 +152,13 @@ def modify_room(): #function that enables a user to modify a room
     print("1. Room Number")
     print("2. Room Type")
     print("3. Room Capacity")
-    print("4. Room Status")
-    print("5. Room Condition")
-    print("6. Room Access Pin")
-    print("7. Room Rate ($)")
-    print("8. Exit")
+    print("4. Room Condition")
+    print("5. Room Access Pin")
+    print("6. Room Rate ($)")
+    print("7. Exit")
     while True:
-        details_modify = input("Please select room detail to modify: ") #prompts the user to enter the details of the room they would like to modify
-        if details_modify not in ('1', '2', '3', '4', '5', '6', '7', '8', 'exit'): #simple statement to validate input
+        details_modify = input("Please select room detail to modify: ").lower() #prompts the user to enter the details of the room they would like to modify
+        if details_modify not in ('1', '2', '3', '4', '5', '6', '7', 'exit'): #simple statement to validate input
             print("Invalid choice. Please try again.")
         else:
             break
@@ -172,12 +170,10 @@ def modify_room(): #function that enables a user to modify a room
     elif details_modify == '3':
         edit_room_capacity(room_num_modify)
     elif details_modify == '4':
-        edit_room_status(room_num_modify)
-    elif details_modify == '5':
         edit_room_condition(room_num_modify)
-    elif details_modify == '6':
+    elif details_modify == '5':
         edit_room_access_pin(room_num_modify)
-    elif details_modify == '7':
+    elif details_modify == '6':
         edit_room_rate(room_num_modify)
     else:
         return
@@ -250,30 +246,6 @@ def edit_room_capacity(room_num_modify):
             t.room_capacity = new_room_capacity
             room_class.Room.save_after_modification()
             print("Room Type Updated")
-    view_modified_room(room_num_modify)
-
-def edit_room_status(room_num_modify): #function to modify room status
-    while True:
-        print("""Room Status:
-                      1. Empty
-                      2. Occupied""")
-        new_room_status = input("Please enter the room status: ")
-        if new_room_status == '1':
-            new_room_status = "Empty"
-            print(f"Room Status '{new_room_status}' selected.")
-            break
-        elif new_room_status == '2':
-            new_room_status = "Occupied"
-            print(f"Room Status '{new_room_status}' selected.")
-            break
-        else:
-            print("Invalid room Status. Please try again.")
-
-    for t in room_class.Room.room_registry:
-        if t.room_number == room_num_modify:
-            t.room_status = new_room_status
-            room_class.Room.save_after_modification()
-            print("Room Status Updated")
     view_modified_room(room_num_modify)
 
 def edit_room_condition(room_num_modify): #function to modify room condition
@@ -363,7 +335,6 @@ def view_modified_room(modified_room_number): #function that enables a user to v
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,
                 "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
                 "Room Condition": room.room_condition,
                 "Room Access Pin": room.room_access_pin,
                 "Room Rate ($)": room.room_rate,
@@ -377,7 +348,6 @@ def view_all_rooms(): #function to view all rooms
             "Room Number": room.room_number,
             "Room Type": room.room_type,
             "Room Capacity": room.room_capacity,
-            "Room Status": room.room_status,
             "Room Condition": room.room_condition,
             "Room Access Pin": room.room_access_pin,
             "Room Rate ($)": room.room_rate,
@@ -395,15 +365,14 @@ def view_specific_room(): #function that enables you to view the details of a si
                 print("Room doesn't exist. Please enter a valid room number.")
         except ValueError:
             print("Invalid room number. Please try again.")
-    specific_room_list = []
 
+    specific_room_list = []
     for room in room_class.Room.room_registry:
         if room.room_number == view_room_number:
             specific_room_list.append({
                 "Room Number": room.room_number,
                 "Room Type": room.room_type,
                 "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
                 "Room Condition": room.room_condition,
                 "Room Access Pin": room.room_access_pin,
                 "Room Rate ($)": room.room_rate,
@@ -411,34 +380,110 @@ def view_specific_room(): #function that enables you to view the details of a si
     print(f"Please find all details about room {view_room_number} below.")
     print(tabulate(specific_room_list, headers="keys", tablefmt="fancy_grid"))
 
-def view_available_rooms(): #function that enables a user to view available rooms
-    available_rooms = []
-    for room in room_class.Room.room_registry:
-        if room.room_status == "Empty":
-            available_rooms.append({
-                "Room Number": room.room_number,
-                "Room Type": room.room_type,
-                "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
-                "Room Condition": room.room_condition,
-                "Room Access Pin": room.room_access_pin,
-                "Room Rate ($)": room.room_rate,
+def view_available_rooms():
+    while True:
+        print("""Room Types:
+                      1. Standard Room
+                      2. Deluxe Room
+                      3. Suite Room""")
+        type_room_availability = input("Please select the room type you wish to view: ")
+        if type_room_availability == '1':
+            type_room_availability = "Standard Room"
+            break
+        if type_room_availability == '2':
+            type_room_availability = "Deluxe Room"
+            break
+        if type_room_availability == '3':
+            type_room_availability = "Suite Room"
+            break
+        else:
+            print("Invalid room type. Please try again.")
+    # Room capacity selection
+    while True:
+        capacity_room_availability = input("Please enter the room capacity you wish to view: ")
+        try:
+            capacity_room_availability = int(capacity_room_availability)
+            if not 0 < capacity_room_availability <= 6:  # checks validity of room capacity input, max room capacity 6 pax
+                print("Invalid room capacity. Please try again, room capacity can't exceeds 6.")
+            else:
+                break
+        except ValueError:
+            print("Invalid room capacity. Please try again.")
+    # Room booking timeframe input
+    while True:
+        start_date_view = input("Please enter the start date of booking (YYYY-MM-DD): ")
+        try:
+            datetime.strptime(start_date_view, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid start date format. Please use YYYY-MM-DD.")
+    while True:
+        end_date_view = input("Please enter the end date of booking (YYYY-MM-DD): ")
+        try:
+            datetime.strptime(end_date_view, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid end date format. Please use YYYY-MM-DD.")
+
+            # Check if room is available
+    view_available_room_filter = [
+        t for t in room_class.Room.room_registry
+        if t.room_type == type_room_availability
+           and t.room_capacity >= capacity_room_availability
+           and not any(
+            datetime.strptime(b.start_date, "%Y-%m-%d") <= datetime.strptime(start_date_view, "%Y-%m-%d")
+            and datetime.strptime(b.end_date, "%Y-%m-%d") >= datetime.strptime(end_date_view, "%Y-%m-%d")
+            for b in booking_class.Booking.booking_registry
+        )]
+
+    if view_available_room_filter:
+        view_available_rooms_list = []
+        for t in view_available_room_filter:
+            view_available_rooms_list.append({
+                "Room Number": t.room_number,
+                "Room Type": t.room_type,
+                "Room Capacity": t.room_capacity,
+                "Room Condition": t.room_condition,
+                "Room Rate": f"${t.room_rate}",
             })
-    print(f"Please find all available rooms below.")
-    print(tabulate(available_rooms, headers="keys", tablefmt="fancy_grid"))
+            print(f"The following rooms with type '{type_room_availability}' and capacity '"
+                  f"{capacity_room_availability} are available:")
+            print(tabulate(view_available_rooms_list, headers="keys", tablefmt="fancy_grid"))
+    else:
+        print(f"No rooms with type '{type_room_availability}' and capacity '{capacity_room_availability} are available\n")
+        print("The following rooms are available")
+        view_available_room_filter_v2 = [
+            t for t in room_class.Room.room_registry
+            if t.room_type != type_room_availability
+               and t.room_capacity <= capacity_room_availability
+               and not any(
+                datetime.strptime(b.start_date, "%Y-%m-%d") <= datetime.strptime(start_date_view, "%Y-%m-%d")
+                and datetime.strptime(b.end_date, "%Y-%m-%d") >= datetime.strptime(end_date_view, "%Y-%m-%d")
+                for b in booking_class.Booking.booking_registry
+            )]
+        if view_available_room_filter_v2:
+            view_available_rooms_v2 = []
+            for t in view_available_room_filter_v2:
+                view_available_rooms_v2.append({
+                    "Room Number": t.room_number,
+                    "Room Type": t.room_type,
+                    "Room Capacity": t.room_capacity,
+                    "Room Condition": t.room_condition,
+                    "Room Rate": f"${t.room_rate}",
+                })
+            print(tabulate(view_available_rooms_v2, headers="keys", tablefmt="fancy_grid"))
+
+    #function that enables a user to view available rooms
 
 def view_occupied_rooms():
     occupied_rooms = []
-    for room in room_class.Room.room_registry:
-        if room.room_status != "Empty":
+    for booking in booking_class.Booking.booking_registry:
+        if any(booking.room_number == room.room_number for room in booking_class.Booking.booking_registry
+               and booking.status == "Checked-In"):
             occupied_rooms.append({
-                "Room Number": room.room_number,
-                "Room Type": room.room_type,
-                "Room Capacity": room.room_capacity,
-                "Room Status": room.room_status,
-                "Room Condition": room.room_condition,
-                "Room Access Pin": room.room_access_pin,
-                "Room Rate ($)": room.room_rate,
+                "Room Number": booking.room_number,
+                "Status": booking.status,
+                "Check-In": booking.check_in
             })
     print(f"Please find all Occupied or Booked rooms below.")
     print(tabulate(occupied_rooms, headers="keys", tablefmt="fancy_grid"))
