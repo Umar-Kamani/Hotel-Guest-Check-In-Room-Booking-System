@@ -232,3 +232,36 @@ def view_all_guests():
             "Guest Passport Number": guest.passport_number,
         })
     print(tabulate(all_guest_list, headers="keys", tablefmt="fancy_grid"))
+
+def view_specific_guest():
+    while True:
+        guest_identifier = input("Enter the guest passport/ID number: ")
+        if any(guest.guest.passport_number == guest_identifier for guest in guest_class.Guest.guest_registry):
+            break
+        else:
+            print("Invalid Passport Number. Please try again.")
+    specific_guest=[]
+    for g in guest_class.Guest.guest_registry:
+        if g.passport_number == guest_identifier:
+            specific_guest.append({
+                "Guest ID": g.id,
+                "Guest Full Name": g.full_name,
+                "Guest Phone Number": g.phone_number,
+                "Date of Birth": g.date_of_birth,
+                "Guest Passport Number": g.passport_number,
+            })
+    print(f"Please find all details about guest with ID/Passport: {guest_identifier} below.")
+    print(tabulate(specific_guest, headers="keys", tablefmt="fancy_grid"))
+
+def delete_guest():
+    while True:
+        guest_identifier_delete = input("Enter the guest passport/ID number: ")
+        if any(guest.guest.passport_number == guest_identifier_delete for guest in guest_class.Guest.guest_registry):
+            break
+        else:
+            print("Invalid Passport Number. Please try again.")
+    for g in guest_class.Guest.guest_registry:
+        if g.passport_number == guest_identifier_delete:
+            guest_class.Guest.guest_registry.remove(g)
+            guest_class.Guest.save_after_modification()
+            print("Guest has been deleted successfully.")
