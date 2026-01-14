@@ -259,10 +259,3 @@ def check_out_booking():
             booking_class.Booking.save_after_modification()
             print("Guest has been checked out successfully, please find booking info below.")
             print(tabulate(check_out, headers="keys", tablefmt="fancy_grid"))
-
-room_class.load_room_data()
-guest_class.load_guest_data()
-booking_class.load_booking_data()
-view_all_bookings()
-check_in_booking()
-check_out_booking()

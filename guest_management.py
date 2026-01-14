@@ -70,6 +70,7 @@ def create_new_guest():
             })
 
     print(tabulate(new_guest_data, headers="keys", tablefmt="fancy_grid"))
+    return main_menu()
 
 def modify_guest():
     print("___________________________________")
@@ -123,6 +124,7 @@ def modify_guest():
         edit_guest_passport_number(guest_passport_number_modify)
     else:
         print("Returning to Main Menu.")
+        return main_menu()
 
 def edit_guest_passport_number(guest_passport_number_modify):
     while True:
@@ -140,6 +142,7 @@ def edit_guest_passport_number(guest_passport_number_modify):
             guest_class.Guest.save_after_modification()
             print("Passport Number has been updated.")
             view_modified_guest(new_passport)
+    return main_menu()
 
 
 def edit_guest_full_name(guest_passport_number_modify):
@@ -164,6 +167,8 @@ def edit_guest_full_name(guest_passport_number_modify):
             guest_class.Guest.save_after_modification()
             print("Full Name has been updated Successfully.")
             view_modified_guest(guest_passport_number_modify)
+    return main_menu()
+
 
 def edit_guest_phone_number(guest_passport_number_modify):
     while True:
@@ -180,6 +185,8 @@ def edit_guest_phone_number(guest_passport_number_modify):
             guest_class.Guest.save_after_modification()
             print("Phone Number has been updated Successfully.")
             view_modified_guest(guest_passport_number_modify)
+    return main_menu()
+
 
 
 def edit_guest_date_of_birth(guest_passport_number_modify):
@@ -198,6 +205,8 @@ def edit_guest_date_of_birth(guest_passport_number_modify):
             guest_class.Guest.save_after_modification()
             print("Date of Birth has been updated Successfully.")
             view_modified_guest(guest_passport_number_modify)
+    return main_menu()
+
 
 def view_modified_guest(guest_passport_number_modify):
     modified_guest_list=[]
