@@ -223,4 +223,3 @@ def view_all_guests():
             "Guest Passport Number": guest.passport_number,
         })
     print(tabulate(all_guest_list, headers="keys", tablefmt="fancy_grid"))
-

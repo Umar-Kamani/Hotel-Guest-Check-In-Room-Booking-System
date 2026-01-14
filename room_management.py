@@ -429,7 +429,7 @@ def view_available_rooms():
     view_available_room_filter = [
         t for t in room_class.Room.room_registry
         if t.room_type == type_room_availability
-           and t.room_capacity <= capacity_room_availability
+           and t.room_capacity >= capacity_room_availability
            and not any(
             datetime.strptime(b.start_date, "%Y-%m-%d") <= datetime.strptime(start_date_view, "%Y-%m-%d")
             and datetime.strptime(b.end_date, "%Y-%m-%d") >= datetime.strptime(end_date_view, "%Y-%m-%d")
