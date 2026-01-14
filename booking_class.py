@@ -3,15 +3,21 @@ import csv
 import secrets
 import string
 
+def random_booking_id(): #generates a random booking ID
+    length = 6
+    random_string = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
+    return random_string
 
 class Booking:
     booking_registry = []
     dir_name = "data"
     file_name = "bookings.csv"
     file_path = f"{dir_name}/{file_name}"
+    booking_id = 0
 
     def __init__(self, guest_id, guest_name, room_number, status, start_date, end_date, check_in, check_out, save=True):
-        self.id = random_booking_id()
+        Booking.booking_id += 1
+        self.id = Booking.booking_id
         self.guest_id = guest_id
         self.guest_name = guest_name
         self.room_number = room_number
@@ -23,6 +29,8 @@ class Booking:
         Booking.booking_registry.append(self)
         if save:
             self.save_to_csv()
+
+
 
     def save_to_csv(self):
         os.makedirs("data", exist_ok=True)
@@ -102,8 +110,5 @@ def load_booking_data():
                     row["Check Out Timestamp"],
                     save=False
                 )
-
-def random_booking_id(): #generates a random booking ID
-    length = 6
-    random_string = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
-    return random_string
+                read_booking_id = int(row["Booking ID"])
+                Booking.booking_id = max(read_booking_id, Booking.booking_id)  # compares booking from line 6 and the one we loaded from the csv file into memory and re-assigns it to the largest number
