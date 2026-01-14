@@ -365,8 +365,8 @@ def view_specific_room(): #function that enables you to view the details of a si
                 print("Room doesn't exist. Please enter a valid room number.")
         except ValueError:
             print("Invalid room number. Please try again.")
-    specific_room_list = []
 
+    specific_room_list = []
     for room in room_class.Room.room_registry:
         if room.room_number == view_room_number:
             specific_room_list.append({
