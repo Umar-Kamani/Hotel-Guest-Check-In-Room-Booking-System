@@ -381,26 +381,97 @@ def view_specific_room(): #function that enables you to view the details of a si
     print(tabulate(specific_room_list, headers="keys", tablefmt="fancy_grid"))
 
 def view_available_rooms():
-    available_room_filter = [
+    while True:
+        print("""Room Types:
+                      1. Standard Room
+                      2. Deluxe Room
+                      3. Suite Room""")
+        type_room_availability = input("Please select the room type you wish to view: ")
+        if type_room_availability == '1':
+            type_room_availability = "Standard Room"
+            break
+        if type_room_availability == '2':
+            type_room_availability = "Deluxe Room"
+            break
+        if type_room_availability == '3':
+            type_room_availability = "Suite Room"
+            break
+        else:
+            print("Invalid room type. Please try again.")
+    # Room capacity selection
+    while True:
+        capacity_room_availability = input("Please enter the room capacity you wish to view: ")
+        try:
+            capacity_room_availability = int(capacity_room_availability)
+            if not 0 < capacity_room_availability <= 6:  # checks validity of room capacity input, max room capacity 6 pax
+                print("Invalid room capacity. Please try again, room capacity can't exceeds 6.")
+            else:
+                break
+        except ValueError:
+            print("Invalid room capacity. Please try again.")
+    # Room booking timeframe input
+    while True:
+        start_date_view = input("Please enter the start date of booking (YYYY-MM-DD): ")
+        try:
+            datetime.strptime(start_date_view, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid start date format. Please use YYYY-MM-DD.")
+    while True:
+        end_date_view = input("Please enter the end date of booking (YYYY-MM-DD): ")
+        try:
+            datetime.strptime(end_date_view, "%Y-%m-%d")
+            break
+        except ValueError:
+            print("Invalid end date format. Please use YYYY-MM-DD.")
+
+            # Check if room is available
+    view_available_room_filter = [
         t for t in room_class.Room.room_registry
-        if not any(
-            datetime.strptime(b.start_date, "%Y-%m-%d") < datetime.now()
-            and datetime.strptime(b.end_date, "%Y-%m-%d") > datetime.now
+        if t.room_type == type_room_availability
+           and t.room_capacity <= capacity_room_availability
+           and not any(
+            datetime.strptime(b.start_date, "%Y-%m-%d") <= datetime.strptime(start_date_view, "%Y-%m-%d")
+            and datetime.strptime(b.end_date, "%Y-%m-%d") >= datetime.strptime(end_date_view, "%Y-%m-%d")
             for b in booking_class.Booking.booking_registry
         )]
 
-    if available_room_filter:
-        available_rooms = []
-        for t in available_room_filter:
-            available_rooms.append({
+    if view_available_room_filter:
+        view_available_rooms = []
+        for t in view_available_room_filter:
+            view_available_rooms.append({
                 "Room Number": t.room_number,
                 "Room Type": t.room_type,
                 "Room Capacity": t.room_capacity,
                 "Room Condition": t.room_condition,
                 "Room Rate": f"${t.room_rate}",
             })
-            print(f"The following rooms are available")
-            print(tabulate(available_rooms, headers="keys", tablefmt="fancy_grid"))
+            print(f"The following rooms with type '{type_room_availability}' and capacity '"
+                  f"{capacity_room_availability} are available:")
+            print(tabulate(view_available_rooms, headers="keys", tablefmt="fancy_grid"))
+    else:
+        print(f"No rooms with type '{type_room_availability}' and capacity '{capacity_room_availability} are available\n")
+        print("The following rooms are available")
+        view_available_room_filter_v2 = [
+            t for t in room_class.Room.room_registry
+            if t.room_type != type_room_availability
+               and t.room_capacity <= capacity_room_availability
+               and not any(
+                datetime.strptime(b.start_date, "%Y-%m-%d") <= datetime.strptime(start_date_view, "%Y-%m-%d")
+                and datetime.strptime(b.end_date, "%Y-%m-%d") >= datetime.strptime(end_date_view, "%Y-%m-%d")
+                for b in booking_class.Booking.booking_registry
+            )]
+        if view_available_room_filter_v2:
+            view_available_rooms_v2 = []
+            for t in view_available_room_filter_v2:
+                view_available_rooms_v2.append({
+                    "Room Number": t.room_number,
+                    "Room Type": t.room_type,
+                    "Room Capacity": t.room_capacity,
+                    "Room Condition": t.room_condition,
+                    "Room Rate": f"${t.room_rate}",
+                })
+
     #function that enables a user to view available rooms
 
 def view_occupied_rooms():
