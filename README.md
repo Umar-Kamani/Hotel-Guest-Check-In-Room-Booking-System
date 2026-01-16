@@ -126,7 +126,7 @@ The project is organized into multiple Python files, each responsible for a spec
 
 - Reloads booking data into memory when the program starts.
 
-7. booking_management.py
+7. `booking_management.py`
    -
 
 - This file handles all booking-related operations.
@@ -139,3 +139,50 @@ The project is organized into multiple Python files, each responsible for a spec
     * **Check-Out Guest**: It updates booking status and records check-out time.
     * **View Bookings**: Provides options to View all bookings and view specific booking.
     * **Cancel Booking**: Removes booking and updates the CSV.
+
+
+**SYSTEM FLOW**
+- 
+    This shows the system loading room, guest, and booking data from CSV files before launching the main menu.This confirms that all persistent data has been successfully loaded into memory.
+
+   ![img_1.png](img_1.png)
+
+
+**Application Welcome Screen**
+- 
+    The system displays a branded ASCII banner to welcome users before showing the main menu.
+![img_2.png](img_2.png)
+
+**Main Menu Interface**
+-
+    
+    This is the main navigation menu where users choose which operation to perform. All system features are accessed through this menu.
+![img_3.png](img_3.png)
+
+
+ **Booking Management Menu**
+-
+    This menu allows staff to manage room bookings and guest reservations.
+   
+![img_4.png](img_4.png)
+
+**Room Management Menu**
+-
+    This menu manages hotel rooms, including creation, modification, and availability checks.
+![img_5.png](img_5.png)
+
+**Guest Management Menu**
+-
+    This menu handles guest records and details and provides options for modification.
+**Invalid Input or Error Handling**
+-
+    The system validates user input and prevents invalid menu selections.
+![img_6.png](img_6.png)
+
+**Exit Screen**
+-
+    Terminates the application and is displayed when the user exits the system.
+![img_7.png](img_7.png)
+
+
+
