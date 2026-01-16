@@ -59,7 +59,7 @@ The project is organized into multiple Python files, each responsible for a spec
     2. `Modify guest details`: Edit name, phone, DOB, or passport number.  
     3. `View all guests`: Displays all registered guests in tabulated format.  
     4. `View specific guest`:This allows one to search for guest by passport number.  
-- It saves all changes to guests.cv
+- It saves all changes to guests.csv
 
 
 4. `room class.py`:
