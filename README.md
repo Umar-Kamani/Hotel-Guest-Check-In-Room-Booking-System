@@ -9,7 +9,7 @@ The system focuses on:
 2. Tracking room availability and conditions in real time.
 3. Handling reservations and cancellations efficiently.
 4. Supporting smooth check-in and check-out processes with accurate timestamps.
-5. Persisting hotel data using CSV files to ensure data is not lost when the program closes.
+5. Persisting data using CSV files to ensure data is not lost when the program closes.
 
 By using modular design with persistent CSV-based storage, the system ensures that hotel staff can manage daily operations in a clear, organized, and user-friendly manner. This solution aims to provide a practical solution that improves efficiency, reduces manual errors, and keeps hotel records well-structured. This is to help reduce wait time in booking hotels.
 
@@ -17,7 +17,7 @@ Project Structure
 -
 The project is organized into multiple Python files, each responsible for a specific part of the hotel management system. This includes: 
 
-![img.png](img.png)
+![img.png](Screenshots/img.png)
 
 1. `main.py`
     -
@@ -52,49 +52,44 @@ The project is organized into multiple Python files, each responsible for a spec
    - Phone number.  
    - Date of birth.  
    - Passport/ID number. 
-- It loads guest data into memory (`guest_registry`)
-- It provides `save_after_modification()` to update CSV after edits.
+- It contains the function that loads guest data into memory (`guest_registry`)
+- It provides the function `save_after_modification()` to update CSV after edits.
 
 3. `guest management`:
    -
-- It provides interactive  functions for managing guests. 
+- It provides interactive functions for managing guests. 
 - It has key features such as: 
     1. `Create new guest` which validates passport, name, phone, and DOB.  
     2. `Modify guest details`: Edit name, phone, DOB, or passport number.  
     3. `View all guests`: Displays all registered guests in tabulated format.  
     4. `View specific guest`:This allows one to search for guest by passport number.  
-- It saves all changes to guests.csv
-
+- It saves all new guests and changes to guests.csv
 
 4. `room class.py`:
     -
-- This python file defines the Guest class and handles guest data storage.
-- It auto-generates a unique Guest ID for each guest.
-- It stores guest details such as:
-   - Guest ID (auto-generated).
-   - Full name. 
-   - Phone number. 
-   - Date of birth. 
-   - Passport/ID number.
--**Key features include:**
-
-    * `Create New Guest`: This validates passport/ID uniqueness, makes sure names contain only letters and validates phone numbers and date of birth.
-    * `Modify Guest Details`: Provides options to edit full name, phone number, date of birth and Passport/ID number.
-    * `View All Guests` : Displays all registered guests in a table form.
-    * `View Specific Guest` : Searches and displays guest details using passport/ID number.
-    * `Delete Guest` : Removes guest from memory and updates the CSV.
+- It defines the room class
+- It has key Attributes such as:
+   - Room Number.
+   - Room Type  
+   - Capacity
+   - Condition
+   - Room Access PIN
+   - Room Rate 
+- It contains the function that loads room data into memory (`room_registry`)
+- It provides the function `save_after_modification()` to update CSV after edits.
  
 4. `room management.py`:
     -
     * This file handles room creation, modification, and viewing.
 
-    * It has key Features like:
+    * It has key functions like:
 
-        -**Create New Room**: This helps prevent duplicate room numbers,validates capacity, access PIN, and room rate.
+        -**Create New Room**: It creates room and helps prevent duplicate room numbers,validates capacity, access PIN, and room rate.
 
-        - **Modify Room**: It has options to edit room number, room type, room capavcity, room condition, room access PIN and room rate.
+        - **Modify Room**: It has options to edit room number, room type, room capacity, room condition, room access PIN and room rate.
 
-        -**Delete Room**: Removes a room and updates the CSV.
+        - **Delete Room**: Removes a room and updates the CSV.
+
         - **View Rooms**: Allows one to view all rooms,view a specific room,view available rooms based on type, capacity, and date range and view occupied or booked rooms.
      
       *Room availability is checked against existing bookings in real time.
@@ -128,11 +123,10 @@ The project is organized into multiple Python files, each responsible for a spec
 
 7. `booking_management.py`
    -
-
 - This file handles all booking-related operations.
 
 - It has key Features like:
-    * **Create Booking**: Helps to select room type and capacity, choose booking start and end dates and automatically checks room availability.
+    * **Create Booking**: It creates a booking and helps to select room type and capacity, choose booking start and end dates and automatically checks room availability.
     
     * **Check-In Guest**: It updates booking status and records check-in time.
 
@@ -141,48 +135,29 @@ The project is organized into multiple Python files, each responsible for a spec
     * **Cancel Booking**: Removes booking and updates the CSV.
 
 
-**SYSTEM FLOW**
-- 
-    This shows the system loading room, guest, and booking data from CSV files before launching the main menu.This confirms that all persistent data has been successfully loaded into memory.
-
-   ![img_1.png](img_1.png)
-
-
-**Application Welcome Screen**
-- 
-    The system displays a branded ASCII banner to welcome users before showing the main menu.
-![img_2.png](img_2.png)
 
 **Main Menu Interface**
 -
     
     This is the main navigation menu where users choose which operation to perform. All system features are accessed through this menu.
-![img_3.png](img_3.png)
+![img_3.png](Screenshots/img_3.png)
 
 
  **Booking Management Menu**
 -
     This menu allows staff to manage room bookings and guest reservations.
    
-![img_4.png](img_4.png)
+![img_4.png](Screenshots/img_4.png)
 
 **Room Management Menu**
 -
     This menu manages hotel rooms, including creation, modification, and availability checks.
-![img_5.png](img_5.png)
+![img_5.png](Screenshots/img_5.png)
 
 **Guest Management Menu**
 -
     This menu handles guest records and details and provides options for modification.
-**Invalid Input or Error Handling**
--
-    The system validates user input and prevents invalid menu selections.
-![img_6.png](img_6.png)
+![img.png](Screenshots/img_8.png)
 
-**Exit Screen**
--
-    Terminates the application and is displayed when the user exits the system.
-![img_7.png](img_7.png)
-
-
-
+Programming 1 Summative - Class Design, Test Plan and Test Results Document - https://docs.google.com/document/d/1QiJW7FdZVXbqL6DUEiVB8jdzlGIwOThi-X3xzqg13Qc/edit?usp=sharing
+Approved - Project Proposal - Summative Programming 1 - https://docs.google.com/document/d/1Mloipu6s3QVCnTCzAG0sRSmys9hF7epfI8uh6eSpi0g/edit?usp=sharing
