@@ -123,7 +123,7 @@ The project is organized into multiple Python files, each responsible for a spec
 
 - Reloads booking data into memory when the program starts.
 
-7. booking_management.py
+7. `booking_management.py`
    -
 
 - This file handles all booking-related operations.
@@ -136,3 +136,11 @@ The project is organized into multiple Python files, each responsible for a spec
     * **Check-Out Guest**: It updates booking status and records check-out time.
     * **View Bookings**: Provides options to View all bookings and view specific booking.
     * **Cancel Booking**: Removes booking and updates the CSV.
+
+
+ **SYSTEM FLOW**
+ -`Data Loading`: This shows the system loading room, guest, and booking data from CSV files before launching the main menu.
+   ![img_1.png](img_1.png)
+
+   
+
