@@ -79,7 +79,18 @@ The project is organized into multiple Python files, each responsible for a spec
     * `View All Guests` : Displays all registered guests in a table form.
     * `View Specific Guest` : Searches and displays guest details using passport/ID number.
     * `Delete Guest` : Removes guest from memory and updates the CSV.
+ 
+4. `room management.py`:
+    -
+    * This file handles room creation, modification, and viewing.
 
+    * It has key Features like:
 
-    
+        -**Create New Room**: This helps prevent duplicate room numbers,validates capacity, access PIN, and room rate.
 
+        - **Modify Room**: It has options to edit room number, room type, room capavcity, room condition, room access PIN and room rate.
+
+        -**Delete Room**: Removes a room and updates the CSV.
+        - **View Rooms**: Allows one to view all rooms,view a specific room,view available rooms based on type, capacity, and date range and view occupied or booked rooms.
+     
+      *Room availability is checked against existing bookings in real time.
