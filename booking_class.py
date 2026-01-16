@@ -1,12 +1,5 @@
 import os
 import csv
-import secrets
-import string
-
-def random_booking_id(): #generates a random booking ID
-    length = 6
-    random_string = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
-    return random_string
 
 class Booking:
     booking_registry = []
