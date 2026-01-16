@@ -15,12 +15,15 @@ By using modular design with persistent CSV-based storage, the system ensures th
 
 Project Structure
 -
-The project is organized into multiple Python files, each responsible for a specific part of the hotel management system. This includes:
+The project is organized into multiple Python files, each responsible for a specific part of the hotel management system. This includes: 
+
+![img.png](img.png)
+
 1. `main.py`
     -
 - Loads all saved data from CSV files (rooms, guests, bookings) into memory when the program starts.
 
-- Displays the main menu and controls navigation across all the python files and all the entire system. ![img.png](img.png)
+- Displays the main menu and controls navigation across all the python files and all the entire system. 
 
 - Connects all modules together (Guest, Room, Booking).
 - Ensures smooth transitions between management menus.
