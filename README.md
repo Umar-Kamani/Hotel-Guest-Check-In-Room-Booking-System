@@ -39,8 +39,9 @@ The project is organized into multiple Python files, each responsible for a spec
     * Guest management menu.
 
     * Exit system.
+  
 2. `guest class.py`:
-   -
+    -
 - It defines the guest class
 - It has key Attributes such as:
    - Guest ID (auto-generated).
@@ -94,3 +95,44 @@ The project is organized into multiple Python files, each responsible for a spec
         - **View Rooms**: Allows one to view all rooms,view a specific room,view available rooms based on type, capacity, and date range and view occupied or booked rooms.
      
       *Room availability is checked against existing bookings in real time.
+
+5. `booking_class.py`
+   -
+
+- This file defines the Booking class and manages booking data storage.
+
+- Auto-generates a unique Booking ID.
+
+- Stores booking attributes such as:
+
+    * Booking ID
+
+    * Guest ID
+
+    * Room number
+
+    * Booking status (Booked, Checked-In, Checked-Out)
+
+    * Start date
+
+    * End date
+
+- Maintains an in-memory list called **booking_registry.**
+
+- Saves booking records to **bookings.csv.**
+
+- Reloads booking data into memory when the program starts.
+
+7. booking_management.py
+   -
+
+- This file handles all booking-related operations.
+
+- It has key Features like:
+    * **Create Booking**: Helps to select room type and capacity, choose booking start and end dates and automatically checks room availability.
+    
+    * **Check-In Guest**: It updates booking status and records check-in time.
+
+    * **Check-Out Guest**: It updates booking status and records check-out time.
+    * **View Bookings**: Provides options to View all bookings and view specific booking.
+    * **Cancel Booking**: Removes booking and updates the CSV.
