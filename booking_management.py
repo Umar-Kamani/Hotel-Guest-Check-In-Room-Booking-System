@@ -213,7 +213,7 @@ def check_in_booking():
     for t in booking_class.Booking.booking_registry:
         if t.id == booking_id_check_in:
             t.status = "Checked In"
-            t.checked_in = datetime.now()
+            t.check_in = datetime.now()
             check_in_filter=[t for t in booking_class.Booking.booking_registry if t.id == booking_id_check_in]
             check_in=[]
             for t in check_in_filter:
@@ -225,7 +225,7 @@ def check_in_booking():
                     "Booking Status": t.status,
                     "Booking Start Date": t.start_date,
                     "Booking End Date": t.end_date,
-                    "Checked In": t.checked_in
+                    "Checked In": t.check_in
                 })
             booking_class.Booking.save_after_modification()
             print("Guest has been checked in, please find booking info below.")
@@ -238,33 +238,32 @@ def check_out_booking():
             booking_id_check_out = int(booking_id_check_out)
         except ValueError:
             print("Invalid Booking ID. Please enter a valid Booking ID.\n")
-            continue
         if any(booking.id == booking_id_check_out and booking.status != "Checked In" for booking in booking_class.Booking.booking_registry):
             print("Guest hasn't been checked in, please enter a valid booking ID.\n")
         elif any(booking.id == booking_id_check_out and booking.status == "Checked In" for booking in booking_class.Booking.booking_registry):
             break
         else:
             print("Booking doesn't exist. Please enter a valid booking ID.\n")
-        for t in booking_class.Booking.booking_registry:
-            if t.id == booking_id_check_out and t.status == "Checked In":
-                t.status = "Checked Out"
-                t.checked_out = datetime.now()
-                check_out_filter = [t for t in booking_class.Booking.booking_registry if
-                                    t.id == booking_id_check_out]
-                check_out = []
-                for t in check_out_filter:
-                    check_out.append({
-                        "Booking ID": t.id,
-                        "Guest ID": t.guest_id,
-                        "Guest Name": t.guest_name,
-                        "Guest Room Number": t.room_number,
-                        "Booking Status": t.status,
-                        "Booking Start Date": t.start_date,
-                        "Booking End Date": t.end_date,
-                        "Checked In": t.checked_in,
-                        "Checked Out": t.checked_out
-                    })
-                booking_class.Booking.save_after_modification()
-                print("Guest has been checked out successfully, please find booking info below.")
-                print(tabulate(check_out, headers="keys", tablefmt="fancy_grid"))
+    for t in booking_class.Booking.booking_registry:
+        if t.id == booking_id_check_out and t.status == "Checked In":
+            t.status = "Checked Out"
+            t.check_out = datetime.now()
+            check_out_filter = [b for b in booking_class.Booking.booking_registry if
+                                b.id == booking_id_check_out]
+            check_out = []
+            for b in check_out_filter:
+                check_out.append({
+                    "Booking ID": b.id,
+                    "Guest ID": b.guest_id,
+                    "Guest Name": b.guest_name,
+                    "Guest Room Number": b.room_number,
+                    "Booking Status": b.status,
+                    "Booking Start Date": b.start_date,
+                    "Booking End Date": b.end_date,
+                    "Checked In": b.check_in,
+                    "Checked Out": b.check_out
+                })
+            booking_class.Booking.save_after_modification()
+            print("Guest has been checked out successfully, please find booking info below.")
+            print(tabulate(check_out, headers="keys", tablefmt="fancy_grid"))
 

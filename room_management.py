@@ -478,8 +478,7 @@ def view_available_rooms():
 def view_occupied_rooms():
     occupied_rooms = []
     for booking in booking_class.Booking.booking_registry:
-        if any(booking.room_number == room.room_number for room in booking_class.Booking.booking_registry
-               and booking.status == "Checked-In"):
+        if any(booking.room_number == room.room_number for room in booking_class.Booking.booking_registry) and booking.check_in:
             occupied_rooms.append({
                 "Room Number": booking.room_number,
                 "Status": booking.status,
